@@ -2,6 +2,8 @@
 layout: default
 ---
 
+Verlog is a well-tuned multi-turn RL (PPO) framework built for long-horizon LLM agentic tasks. It extends VeRL and BALROG, and follows the core design principles of pytorch-ppo, while introducing tailored modifications for efficient multi-turn learning.
+
 ## Model
 
 **Instruct Model:**
