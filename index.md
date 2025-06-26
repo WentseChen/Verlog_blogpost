@@ -1,45 +1,131 @@
 ---
 layout: default
----
-# Technical Report
-
-We will go through each of the design choices in detail in the technical report.
 
 ## Model
 
-**Instruct Model:** For simplicity, we're starting with the Instruct model, Qwen-2.5-3B-Instruct. We chose this over the base model because it allows us to leverage BALROG for debugging and to use the benchmark's prompts with minimal modifications.
+**Instruct Model:**
+For simplicity, we start with the Instruct model, **Qwen-2.5-3B-Instruct**. We chose this over the base model because it allows us to leverage BALROG for debugging and to use the benchmark's prompts with minimal modifications.
 
-**Memory Mechanism:** Rather than placing the entire trajectory into the context window, we include only the latest $n+1$ turns. To support this, we treat each turn, i.e., $\text{data}=(\text{history\_t}, s_t, \text{think}_t, a_t)$ and $\text{history\_t} = \{s_{t-n}, \text{think}_{t-n}, a_{t-n},...,s_{t-1}, \text{think}_{t-1}, a_{t-1}\}$, as an individual training data point. Consequently, each training batch consists of $\textit{batch\_size}$ individual turns, rather than $\textit{batch\_size}$ full trajectories.
+**Memory Mechanism:**
+Rather than placing the entire trajectory into the context window, we include only the latest \$n+1\$ turns. Each turn, i.e.,
+**data** = (`history_t`, \$s\_t\$, `think_t`, \$a\_t\$),
+with
+**history\_t** = {\$s\_{t-n}\$, `think_{t-n}`, \$a\_{t-n}\$, ..., \$s\_{t-1}\$, `think_{t-1}`, \$a\_{t-1}\$},
+is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not full trajectories.
 
-### Memory Design Choices
+We detail our memory design choices below:
 
-1. **Choice of $n$:** For the 3B Qwen model, performance is highest when $n = 1$ or $2$, and degrades as $n$ increases to $4$ or $8$. We hypothesize that this is due to the model's difficulty handling longer input contexts. In more complex settings, a larger $n$ may be beneficial.
-   
-2. **Including Reasoning Paths in Context:** We examined whether to include full reasoning paths in the context. A variant that includes only the final action, i.e., $\text{data}=(\text{history\_t}, s_t, \text{think}_t, a_t)$ and $\text{history\_t} = \{s_{t-n}, a_{t-n},...,s_{t-1}, a_{t-1}\}$, was unable to learn an effective policy.
+* **(1) Choice of \$n\$:**
+  For the 3B Qwen model, performance peaks at \$n = 1\$ or \$2\$ and degrades as \$n\$ increases to \$4\$ or \$8\$. We hypothesize that this results from difficulty handling long contexts—for example, \$n = 8\$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable settings, a larger \$n\$ may help.
 
-**Prompt Template:** Figure~\ref{} illustrates the prompt template used for BabyAI, with additional examples provided in Section~\ref{}. The prompts are adapted from BALROG. We recommend always examining the model’s zero-shot outputs before initiating training.
+* **(2) Including reasoning paths in context:**
+  We tested a variant that includes only the final action in history:
+  **data** = (`history_t`, \$s\_t\$, `think_t`, \$a\_t\$), with
+  **history\_t** = {\$s\_{t-n}\$, \$a\_{t-n}\$, ..., \$s\_{t-1}\$, \$a\_{t-1}\$}.
+  This version failed to learn an effective policy.
+
+**Prompt Template:**
+Figure ⬜ illustrates the prompt template used for BabyAI (more examples in Section ⬜). The prompts are adapted from BALROG.
+
+We recommend always examining the model’s zero-shot outputs before training. Specifically, evaluate:
+
+1. Whether reasoning paths are diverse.
+2. Whether the model reasons sufficiently before selecting an action.
+3. The ratio of valid actions.
+4. The types of failure cases.
+
+These checks ensure the model understands the environment from the prompt. If not, revise the prompt before fine-tuning.
+
+---
 
 ## Environment
 
-**Valid Action:** The easiest way to improve zero-shot performance is through prompt engineering that increases the ratio of valid actions. In our experiments, we ensure that the zero-shot model produces valid actions more than 95% of the time.
+**Valid Action:**
+Improving the valid action ratio via prompt engineering is the simplest way to boost zero-shot performance. In our setup, we ensure the model produces valid actions over 95% of the time.
 
-**Reward:** In this work, the reward is provided by the environment and follows a rule-based structure. We adopt a binary reward scheme: a reward of 1 for successful trajectories and 0 for failures. This binary reward, combined with dual-discount GAE, ensures that earlier steps in sub-optimal trajectories receive lower credit compared to those in optimal ones.
+We find that truncating the entire trajectory upon encountering an invalid action reduces performance. Replacing the invalid action with a default one works better. With a high valid-action ratio, applying a format penalty has little impact.
 
-**Batch Environment:** The framework supports asynchronous environment rollouts and is compatible with any custom environment that follows the OpenAI Gym interface. Each training batch has a size of $\textit{n\_env} \times \textit{e\_len}$.
+**Reward:**
+Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, the reward (ranging from 0 to 1) is only available at the end of the trajectory. Longer trajectories generally get lower rewards.
 
-**Truncated Trajectory:** If the trajectory is truncated at time step $t$, we also store the subsequent state $s_{t+1}$ in the buffer. However, we do not query the policy to obtain the corresponding action $a_{t+1}$. Instead, we use the last token of $s_{t+1}$ to estimate the value of the next state $V(s_{t+1}$), serving as the bootstrap for the GAE computation.
+We adopt a **binary reward** scheme:
+
+* 1 for success
+* 0 for failure
+
+Combined with dual-discount GAE, this ensures earlier steps in suboptimal trajectories get lower credit than those in optimal ones.
+
+**Batch Environment:**
+Our framework supports asynchronous rollouts and works with any environment using the OpenAI Gym interface. Each training batch size is:
+`n_env` × `e_len`,
+where:
+
+* `n_env` = number of parallel environments
+* `e_len` = episode length per rollout
+
+Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. This lets us use the value function to guide incomplete trajectories.
+
+We find that using `e_len = 8`, `n_env = 32` performs better than `e_len = 16`, `n_env = 16`.
+
+**Truncated Trajectory:**
+If a trajectory is truncated at step \$t\$, we store the next state \$s\_{t+1}\$ but do not sample \$a\_{t+1}\$. Instead, we use the final token of \$s\_{t+1}\$ to estimate \$V(s\_{t+1})\$, used as the bootstrap value in GAE.
+
+---
 
 ## Algorithm
 
-**Dual Discounting GAE:** We decouple the token-level discount factors $(\gamma_{\text{token}}, \lambda_{\text{token}})$ from the step-level discount factors $(\gamma_{\text{step}}, \lambda_{\text{step}})$ when computing GAE.
+**Dual Discounting GAE:**
+We separate token-level discounting \$(\gamma\_{\text{token}}, \lambda\_{\text{token}})\$ from step-level \$(\gamma\_{\text{step}}, \lambda\_{\text{step}})\$.
+We set:
 
-**Value Function Estimation:** When both $\gamma$ and $\lambda$ are set to 1.0, the value function serves purely as a baseline for PPO's advantage estimation. However, when $\gamma$ and $\lambda$ are set to values less than 1.0, the value function also influences the GAE objective directly.
+* \$\gamma\_{\text{step}} = 0.99\$, \$\lambda\_{\text{step}} = 0.95\$
+* \$\gamma\_{\text{token}} = 1.0\$, \$\lambda\_{\text{token}} = 1.0\$
 
-**Critic Warmup:** To ensure the value function is reliable for RL, we perform a critic warmup phase before fine-tuning begins. During the warmup phase, we collect pre-collected data to compute the GAE objective and update the critic network.
+The GAE is computed recursively:
 
-**Use KL-Divergence in Reward:** Incorporating a KL-divergence term in the reward function improves performance by encouraging exploration and stabilizing training.
+$$
+\hat{A}_t = \gamma\lambda \hat{A}_{t+1} + \delta_t^V
+$$
+
+where:
+
+* \$\gamma\lambda = \gamma\_{\text{step}} \lambda\_{\text{step}}\$ if tokens are from different turns
+* \$\gamma\lambda = \gamma\_{\text{token}} \lambda\_{\text{token}}\$ otherwise
+* \$\delta\_t^V = -V(s\_t) + r\_t + \gamma V(s\_{t+1})\$
+
+The recursion starts from the last token of the final turn and proceeds backward, turn by turn.
+
+**Value Function Estimation:**
+When \$\gamma = \lambda = 1.0\$, the value function acts only as a baseline. The advantage at token \$t\$ in the final turn is:
+\$r - V\_{-1,t}\$
+
+With \$\gamma < 1.0\$, the value function also shapes the GAE directly. Since the first token in each turn is more semantically meaningful, we weight it more during critic training.
+
+**Critic Warmup:**
+Reliable value estimates are essential for:
+
+1. Bootstrapping truncated trajectories.
+2. Computing GAE.
+
+We warm up the critic before fine-tuning:
+
+* Freeze the actor.
+* Update only the critic for the first `w_epoch` epochs.
+
+We collect `w_epoch × batch_size` turns of data at the beginning. During `w_iter` epochs, this dataset is used to compute GAE and train the critic. Afterward, we resume standard RL training.
+
+**KL-Divergence in Reward:**
+Adding a KL-divergence term stabilizes training. Without it, the policy quickly drifts from \$\pi\_0\$ and converges to poor solutions. KL rewards encourage local exploration around \$\pi\_0\$ before divergence.
+
+We experimented with higher entropy coefficients (e.g., 3e-3, 1e-2), which caused instability. We set both entropy and KL reward coefficients to **1e-3**. It's unclear if this holds for larger batch sizes—a question for future work.
+
+---
 
 ## Conclusion
 
-In summary, when training an LLM agent with multi-turn reinforcement learning, it is crucial to focus on prompt design, value loss optimization, and exploration. These aspects are essential for achieving robust performance across various environments and tasks.
+In summary, when training an LLM agent using multi-turn reinforcement learning, the following aspects are critical (in order of importance):
+
+1. Prompt design
+2. Value loss optimization
+3. Exploration
 
