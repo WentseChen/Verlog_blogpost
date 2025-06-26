@@ -1,5 +1,5 @@
 title: Verlog
 description: A Multi-turn RL framework for LLM agents
-show_downloads: true
+show_downloads: false
 google_analytics:
 theme: jekyll-theme-slate
