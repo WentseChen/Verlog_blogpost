@@ -28,15 +28,15 @@ We will explain the design choice and introduce the implementation details of th
     For simplicity, we start with the Instruct model, **Qwen-2.5-3B-Instruct**. We chose this over the base model because it allows us to leverage [BALROG](https://github.com/balrog-ai/BALROG) for debugging and to use the benchmark's prompts with minimal modifications.
 
 * **Memory Mechanism:**
-    Rather than placing the entire trajectory into the context window, we include only the latest $n+1$ turns. Each turn, i.e., **data** = ($\text{history}_t$, $s_t$, $\text{think}_t$, $a_t$), with $\text{history}_t$ = {$s_{t-n}$, $\text{think}_{t-n}$, $a_{t-n}$, ..., $s_{t-1}$, $\text{think}_{t-1}$, $a_{t-1}$}, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories. We detail our memory design choices below:
+    Rather than placing the entire trajectory into the context window, we include only the latest $n+1$ turns. Each turn, i.e., data = $(\text{history}_t, s_t, \text{think}_t, a_t)$, with $\text{history}_t = \{s_{t-n}, \text{think}_{t-n}, a_{t-n}, ..., s_{t-1}, \text{think}_{t-1}, a_{t-1}\}$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories. We detail our memory design choices below:
 
     * **(1) Choice of $n$:**
     For the 3B Qwen model, performance peaks at $n = 1$ or $2$ and degrades as $n$ increases to $4$ or $8$. We hypothesize that this decline is due to the 3B model’s limited capacity to handle long contexts—for example, $n = 8$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable tasks, a larger $n$ may help.
 
     * **(2) Including reasoning paths in context:**
     We tested a variant that includes only the final action in history:
-    **data** = ($\text{history}_t$, $s_t$, $\text{think}_t$, $a_t$), with
-    $\text{history}_t$ = {$s_{t-n}$, $a_{t-n}$, ..., $s_{t-1}$, $a_{t-1}$}.
+    data = $(\text{history}_t, s_t, \text{think}_t, a_t)$, with
+    $\text{history}_t = \{s_{t-n}, a_{t-n}, ..., s_{t-1}, a_{t-1}\}$.
     This version failed to learn an effective policy.
 
     Qualitative results show that increasing $n$ leads to: (1) longer responses, as LLMs often spend additional tokens rephrasing or reiterating previous plans; (2) less diverse reasoning paths, with the model tending to mimic reasoning patterns from earlier turns; and (3) more hallucinations, where the LLM struggles to distinguish between internally generated thoughts and actual events in the environment. Future work is needed to investigate how memory design influences these behaviors in LLM agents.
@@ -44,7 +44,10 @@ We will explain the design choice and introduce the implementation details of th
 * **Prompt Template:**
     Belows is the prompt template used for BabyAI. The prompts are adapted from [BALROG](https://github.com/balrog-ai/BALROG).
     ```
-    [SYSTEM] You are an agent playing a simple navigation game. Your goal is to {MISSION}. The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. In a moment I will present you an observation. Tips: {TIPS}.
+    [SYSTEM] You are an agent playing a simple navigation game. 
+    Your goal is to {MISSION}. 
+    The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. 
+    In a moment I will present you an observation. Tips: {TIPS}.
     PLAY!
     ```
     ```
