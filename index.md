@@ -126,7 +126,9 @@ We will explain the design choice and introduce the implementation details of th
 * **KL-Divergence in Reward:**
     Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL rewards encourage local exploration around $$\pi_0$$ before divergence.
 
-    For entorpy term in the PPO loss, we experimented with higher entropy coefficients (e.g., 3e-3, 1e-2), which caused instability. We set both entropy and KL reward coefficients to **1e-3**. 
+    For entorpy term in the PPO loss, we experimented with higher entropy coefficients (e.g., 3e-3, 1e-2), which caused instability.
+
+    We set both entropy and KL reward coefficients to **1e-3**. 
 
 ## Conclusion
 
