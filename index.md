@@ -110,9 +110,9 @@ We will explain the design choice and introduce the implementation details of th
 
     where:
 
-    * $$\gamma\lambda = \gamma_{\text{step}} \lambda_{\text{step}}$$ if tokens are from different turns
-    * $$\gamma\lambda = \gamma_{\text{token}} \lambda_{\text{token}}$$ otherwise
-    * $$\delta_t^V = -V(s_t) + r_t + \gamma V(s_{t+1})$$
+    * $$\gamma\lambda = \gamma_{\text{step}} \lambda_{\text{step}}$$, if tokens are from different turns
+    * $$\gamma\lambda = \gamma_{\text{token}} \lambda_{\text{token}}$$, otherwise
+    * and $$\delta_t^V = -V(s_t) + r_t + \gamma V(s_{t+1})$$
 
     The recursion starts from the last token of the final turn and proceeds backward. Once all tokens in the final turn are processed, we move to the last token of the second-to-last turn, and continue this process recursively. 
     If a trajectory is truncated at step $$T$$, we store the next state $$s_{T+1}$$ but do not sample $$a_{T+1}$$. Instead, we use the final token of $$s_{T+1}$$ to estimate $$V(s_{T+1})$$, used as the bootstrap value in GAE.
@@ -128,7 +128,7 @@ We will explain the design choice and introduce the implementation details of th
     In our setting, we warm up the critic before fine-tuning, as it is used both for bootstrapping truncated trajectories and for computing GAE. That is, we freeze the actor and update only the critic at the beginning of training. Specifically, We collect `w_epoch × batch_size` turns of data at the beginning. For each warmup iteration, we compute the GAE objective with current critic, sample one tenth of the collected data, train the critic, and repeat this process for `w_iter` iterations. We select `w_epoch = 40` and `w_iter = 5` in our experiments, and make sure that the critic loss converges to a small value before fine-tuning the actor.
     
 * **KL-Divergence in Reward:**
-    Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from \$$\pi\_0\$$ and converges to poor solutions. KL rewards encourage local exploration around \$$\pi\_0\$$ before divergence.
+    Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL rewards encourage local exploration around $$\pi_0$$ before divergence.
 
     For entorpy term in the PPO loss, we experimented with higher entropy coefficients (e.g., 3e-3, 1e-2), which caused instability. We set both entropy and KL reward coefficients to **1e-3**. 
 
