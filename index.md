@@ -87,11 +87,7 @@ We will explain the design choice and introduce the implementation details of th
     * `n_env` = number of parallel environments
     * `e_len` = episode length per rollout
 
-    Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process.
-
-    We find that using `e_len = 8`, `n_env = 32` performs better than `e_len = 16`, `n_env = 16`.
-
-* **Truncated Trajectory:**
+    Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process. We find that using `e_len = 8`, `n_env = 32` performs better than `e_len = 16`, `n_env = 16`.
     
 
 ### Algorithm
