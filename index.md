@@ -104,9 +104,9 @@ We will explain the design choice and introduce the implementation details of th
 
     The GAE is computed recursively:
 
-    $$$$
+    $$
     \hat{A}_t = \gamma\lambda \hat{A}_{t+1} + \delta_t^V
-    $$$$
+    $$
 
     where:
 
