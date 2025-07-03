@@ -19,7 +19,7 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 ## Main Results
 
 We evaluated Verlog on two challenging long-horizon LLM agent tasks, BabyAI and BabaIsAI, both with a **maximum episode length of 128**.
-All the experiments are done with Qwen2.5-3B-Instruct model, PPO on 4xA40 GPUs with 48Gb memory for 24 hours.
+All the experiments are done with Qwen2.5-3B-Instruct model, PPO on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 gradient updates.
 
 * BabyAI Results (win rate)
 
