@@ -21,23 +21,22 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 We evaluated Verlog on two challenging long-horizon LLM agent tasks, BabyAI and BabaIsAI, both with a **maximum episode length of 128**.
 All the experiments are done with Qwen2.5-3B-Instruct model, PPO on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 gradient updates.
 
+
+
 * BabyAI Results (win rate)
 
-    | Task                  | Instruct-model | Ours |
-    |------------------------|----------------|------|
-    | goto                  | 0.88           | 1.0  |
-    | pickup                | 0.41           | 1.0  |
-    | pick_up_seq_go_to     | 0.22           | 1.0  |
-    | open                  | 0.09           | 1.0  |
+    | Model          | goto | pickup | pick_up_seq_go_to | open |
+    |----------------|------|--------|-------------------|------|
+    | Instruct-model | 0.88 | 0.41   | 0.22              | 0.09 |
+    | Verlog (Ours)  | 1.0  | 1.0    | 1.0               | 1.0  |
+
 
 * BabaIsAI Results (win rate)
-
-    | Task                                   | Instruct-model | Ours |
-    |-----------------------------------------|----------------|------|
-    | goto_win-distr_obj                    | 0.21           | 1.0  |
-    | two_room-goto_win                     | 0.09           | 1.0  |
-    | two_room-goto_win-distr_obj_rule      | 0.09           | 1.0  |
-    | two_room-maybe_break_stop-goto_win    | 0.21           | 0.69 |
+  
+    | Model          | goto_win-distr_obj | two_room-goto_win | two_room-goto_win-distr_obj_rule | two_room-maybe_break_stop-goto_win |
+    |----------------|--------------------|-------------------|----------------------------------|-------------------------------------|
+    | Instruct-model | 0.21               | 0.09              | 0.09                             | 0.21                                |
+    | Verlog (Ours)  | 1.0                | 1.0               | 1.0                              | 0.69                                |
 
 ## Technical Report
 
@@ -141,7 +140,7 @@ We will explain the design choice and introduce the implementation details of th
     In our setting, we warm up the critic before fine-tuning, as it is used both for bootstrapping truncated trajectories and for computing GAE. That is, we freeze the actor and update only the critic at the beginning of training. Specifically, We collect `w_epoch × batch_size` turns of data at the beginning. For each warmup iteration, we compute the GAE objective with current critic, sample one tenth of the collected data, train the critic, and repeat this process for `w_iter` iterations. We select `w_epoch = 40` and `w_iter = 5` in our experiments, and make sure that the critic loss converges to a small value before fine-tuning the actor.
     
 * **KL-Divergence in Reward:**
-    Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL rewards encourage local exploration around $$\pi_0$$ before divergence.
+    Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL penalty encourage local exploration around $$\pi_0$$ before divergence.
 
     For entorpy term in the PPO loss, we experimented with higher entropy coefficients (e.g., 3e-3, 1e-2), which caused instability.
 
