@@ -36,7 +36,7 @@ BabyAI and BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using
     | Model          | goto | pickup | pick_up_seq_go_to | open |
     |----------------|------|--------|-------------------|------|
     | Instruct-model | 0.88 | 0.41   | 0.22              | 0.09 |
-    | Verlog (Ours)  | 1.0  | 1.0    | 1.0               | 1.0  |
+    | Verlog (Ours)  | 1.0  | 1.0    | 0.9               | 1.0  |
 
 
 * BabaIsAI Results (win rate)
@@ -103,9 +103,13 @@ We will explain the design choice and introduce the implementation details of th
 ### Environment
 
 * **Valid Action:**
-    Improving the valid action ratio via prompt engineering is the simplest way to boost the performance. In our setup, we ensure the model produces valid actions over 95% of the time. We find that truncating the entire trajectory upon encountering an invalid action reduces performance. Replacing the invalid action with a default one works better. 
+   Improving the valid action ratio through prompt engineering is the simplest and most effective way to boost performance. In our setup, we ensure the model produces valid actions over 95% of the time using the following strategies:
 
-    With a high valid-action ratio, applying a format penalty has little impact, we set a 0.1 penalty on invalid action in this work.
+  * Hardcoded action translation: Certain invalid actions are frequently produced by zero-shot LLMs (e.g., "Move forward" and "Go forward"). We implement a hand-crafted translation function to map these to valid actions, preventing them from lowering the valid action ratio.
+  
+  * Replace invalid actions with a default action: When the LLM outputs an invalid action, the environment rejects it and executes a predefined default action instead. Simultaneously, we replace the invalid action with the default one before appending it to the history buffer. This prevents the agent from mimicking the invalid action in subsequent steps.
+    
+We observe that truncating the trajectory upon encountering an invalid action leads to worse performance. Replacing invalid actions with a default action yields better results. In this work, we apply a 0.1 penalty to invalid actions. However, with a high valid action ratio, the format penalty has minimal impact on overall performance.
 
 * **Reward:**
     Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, the reward (ranging from 0 to 1) is only available at the end of the trajectory. Longer trajectories generally get lower rewards.
