@@ -16,12 +16,20 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 🚀 Optimized for Long-Horizon Agentic Tasks: Verlog incorporates techniques like Dual Discounting GAE and Critic Pre-training, along with carefully tuned hyperparameters, to ensure strong performance on challenging long-horizon multi-turn benchmarks such as BALROG.
 
+📊 Robust to Long and Variable Trajectories: Verlog is built to handle environments with highly variable and extended episode lengths, such as BabyAI, BabaIsAI, and Crafter. Crafter’s trajectory mean length ranges from 70 to 400 steps, while BabyAI and BabaIsAI both feature maximum episode lengths exceeding 100. These characteristics pose significant challenges for existing codebases, but Verlog ensures efficient training and stable performance even under such long-horizon complexity.
+
 ## Main Results
 
-We evaluated Verlog on two challenging long-horizon LLM agent tasks, BabyAI and BabaIsAI, both with a **maximum episode length of 128**.
-All the experiments are done with Qwen2.5-3B-Instruct model, PPO on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 gradient updates.
+Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
+* Crafter Results:  
 
+    | Model             | Instruct-model | Verlog (Ours) |
+    |-------------------|----------------|---------------|
+    | Rewards           | 5.80           | 10.44         |
+    | Trajectory length | 172.23         | 196.42        |
+
+BabyAI and BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
 
 * BabyAI Results (win rate)
 
@@ -32,11 +40,17 @@ All the experiments are done with Qwen2.5-3B-Instruct model, PPO on 4xA40 GPUs w
 
 
 * BabaIsAI Results (win rate)
+
+    goto_win → 🏁; 
+    distr_obj → 🎁; 
+    two_room → 🚪; 
+    distr_obj_rule → 📏;  
+    maybe_break_stop → ⚠️;  
   
-    | Model          | goto_win-distr_obj | two_room-goto_win | two_room-goto_win-distr_obj_rule | two_room-maybe_break_stop-goto_win |
-    |----------------|--------------------|-------------------|----------------------------------|-------------------------------------|
-    | Instruct-model | 0.21               | 0.09              | 0.09                             | 0.21                                |
-    | Verlog (Ours)  | 1.0                | 1.0               | 1.0                              | 0.69                                |
+  | Model          | 🏁+🎁         | 🚪+🏁          | 🚪+🏁+🎁+📏                | 🚪+⚠️+🏁                        |
+  |----------------|----------------|----------------|------------------------------|----------------------------------|
+  | Instruct-model | 0.21           | 0.09           | 0.09                         | 0.21                             |
+  | Verlog (Ours)  | 1.0            | 1.0            | 1.0                          | 0.69                             |
 
 ## Technical Report
 
