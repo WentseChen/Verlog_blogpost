@@ -71,31 +71,25 @@ In the following sections, we explain our design choices, present implementation
 
   The results show that for the 3B Qwen model, performance peaks at $$n = 1$$ or $$2$$ and degrades as $$n$$ increases to $$4$$ or $$8$$. We hypothesize that this decline is due to the 3B model’s limited capacity to handle long contexts—for example, $$n = 8$$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable tasks, a larger $$n$$ may help. We observed two notable issues related to the memory mechanism:
 
-    * (1) Mimicking prior reasoning patterns: The model tends to replicate reasoning styles from earlier turns, reducing the diversity of its thought processes.
+    * **Mimicking prior reasoning patterns:** The model tends to replicate reasoning styles from earlier turns, reducing the diversity of its thought processes.
   
-    * (2) Multi-turn hallucinations: The model struggles to distinguish between actions imagined during reasoning and actual events in the environment. For example, it may plan to "chop a tree then craft a pickaxe" but fail to find a tree in reality—yet still act as if the plan succeeded. This is a unique challenge for LLM-based agents.
+    * **Multi-turn hallucinations:** The model struggles to distinguish between actions imagined during reasoning and actual events in the environment. For example, it may plan to "chop a tree then craft a pickaxe" but fail to find a tree in reality—yet still act as if the plan succeeded. This is a unique challenge for LLM-based agents.
  
   We conducted preliminary experiments to address these issues: (1) We tested a variant that includes only the final action in history: data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$, with $$\text{history}_t = \{s_{t-n}, a_{t-n}, ..., s_{t-1}, a_{t-1}\}$$. (2) We tested a variant that periodically clears the history buffer (every 5 steps). Both approaches led to worse performance.
 
 * **Prompt Template:**
     Belows is the prompt template used for BabyAI. The prompts are adapted from [BALROG](https://github.com/balrog-ai/BALROG).
     ```
-    [SYSTEM] You are an agent playing a simple navigation game.
-    Your goal is to {MISSION}. 
-    The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. In a moment I will present you an observation. Tips: {TIPS}. PLAY!
+    [SYSTEM] You are an agent playing a simple navigation game. Your goal is to {MISSION}. The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. In a moment I will present you an observation. Tips: {TIPS}. PLAY!
     ```
     ```
     [USER] {OBSERVATION}
     ```
     ```
-    [ASSISTANT] THINK: {THINK}
-    ACTION: {ACTION}
+    [ASSISTANT] THINK: {THINK} ACTION: {ACTION}
     ```
     ```
-    [USER] {OBSERVATION}
-    What will you do next? Please respond in the following format:
-    THINK: step-by-step reasoning
-    ACTION: One valid action from the allowed set.
+    [USER] {OBSERVATION}. What will you do next? Please respond in the following format: THINK: step-by-step reasoning. ACTION: One valid action from the allowed set.
     ```
     We recommend always examining the model’s zero-shot outputs before training. Specifically, evaluate: (1) Whether reasoning paths are diverse, (2) whether the model reasons sufficiently before selecting an action, (3) the ratio of valid actions, and (4) the types of failure cases. These checks ensure the model understands the environment from the prompt. If not, revise the prompt before fine-tuning.
 
