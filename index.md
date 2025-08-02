@@ -82,8 +82,7 @@ In the following sections, we explain our design choices, present implementation
     ```
     [SYSTEM] You are an agent playing a simple navigation game.
     Your goal is to {MISSION}. 
-    The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. In a moment I will present you an observation. Tips: {TIPS}.
-    PLAY!
+    The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. In a moment I will present you an observation. Tips: {TIPS}. PLAY!
     ```
     ```
     [USER] {OBSERVATION}
