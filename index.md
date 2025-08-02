@@ -67,18 +67,15 @@ In the following sections, we explain our design choices, present implementation
     For simplicity, we start with the Instruct model, **Qwen-2.5-3B/7B-Instruct**. We chose this over the base model because it allows us to leverage [BALROG](https://github.com/balrog-ai/BALROG) for debugging and to use the benchmark's prompts with minimal modifications.
 
 * **Memory Mechanism:**
-    Rather than placing the entire trajectory into the context window, we include only the latest $$n+1$$ turns. Each turn, i.e., data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$ , with $$\text{history}_t = \{s_{t-n}, \text{think}_{t-n}, a_{t-n}, ..., s_{t-1}, \text{think}_{t-1}, a_{t-1}\}$$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories. We detail our memory design choices below:
+    Rather than placing the entire trajectory into the context window, we include only the latest $$n+1$$ turns. Each turn, i.e., data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$ , with $$\text{history}_t = \{s_{t-n}, \text{think}_{t-n}, a_{t-n}, ..., s_{t-1}, \text{think}_{t-1}, a_{t-1}\}$$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories.
 
-    * **(1) Choice of $$n$$:**
-    For the 3B Qwen model, performance peaks at $$n = 1$$ or $$2$$ and degrades as $$n$$ increases to $$4$$ or $$8$$. We hypothesize that this decline is due to the 3B model’s limited capacity to handle long contexts—for example, $$n = 8$$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable tasks, a larger $$n$$ may help.
+  The results show that, for the 3B Qwen model, performance peaks at $$n = 1$$ or $$2$$ and degrades as $$n$$ increases to $$4$$ or $$8$$. We hypothesize that this decline is due to the 3B model’s limited capacity to handle long contexts—for example, $$n = 8$$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable tasks, a larger $$n$$ may help. We found some interesting observation related to the memory mechanism:
 
-    * **(2) Including reasoning paths in context:**
-    We tested a variant that includes only the final action in history: data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$, with $$\text{history}_t = \{s_{t-n}, a_{t-n}, ..., s_{t-1}, a_{t-1}\}$$. This version failed to learn an effective policy.
-
-    * **(3) Periodically reset history:**
-    We tested a variant that periodically clears the history buffer (every 5 steps). This slightly improved zero-shot performance, as the agent often got stuck in a loop by copying incorrect decision patterns from previous turns. The response length also increased slightly due to greater response diversity. However, the final performance declined, so we did not adopt this reset strategy in the final algorithm.
-
-    Qualitative results show that increasing $$n$$ leads to: (1) longer responses, as LLMs often spend additional tokens rephrasing or reiterating previous plans; (2) less diverse reasoning paths, with the model tending to mimic reasoning patterns from earlier turns; and (3) more hallucinations, where the LLM struggles to distinguish between internally generated thoughts and actual events in the environment. Future work is needed to investigate how memory design influences these behaviors in LLM agents.
+    * (1) Mimic pervious turn's resoning pattern: model tending to mimic reasoning patterns from earlier turns, leading to less diverse reasoning paths.
+  
+    * (2) Multi-turn hallucinations: models are struggle to distinguish the thing happends in its reasoning path and the thing happends in the environment. For example, in the reasoning path, it made a plan which is chop the tree then craft a pickaxe. In real world, it fails to find a tree. The agent might not realize this. This is a special problem for LLM agents.
+ 
+  We conducted some preliminary results on this, (1) We tested a variant that includes only the final action in history: data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$, with $$\text{history}_t = \{s_{t-n}, a_{t-n}, ..., s_{t-1}, a_{t-1}\}$$. (2) We tested a variant that periodically clears the history buffer (every 5 steps). Both methods lead to inferior performance.
 
 * **Prompt Template:**
     Belows is the prompt template used for BabyAI. The prompts are adapted from [BALROG](https://github.com/balrog-ai/BALROG).
