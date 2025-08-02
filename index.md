@@ -20,7 +20,7 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 ## Main Results
 
-> Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
+
 
 * Crafter Results:  
 
@@ -29,14 +29,7 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
     | Rewards           | 5.80           | 10.44         |
     | Trajectory length | 172.23         | 196.42        |
 
-BabyAI and BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
-
-* BabyAI Results (win rate)
-
-    | Model          | goto | pickup | pick_up_seq_go_to | open |
-    |----------------|------|--------|-------------------|------|
-    | Instruct-model | 0.88 | 0.41   | 0.22              | 0.09 |
-    | Verlog (Ours)  | 1.0  | 1.0    | 0.9               | 1.0  |
+    > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
 
 * BabaIsAI Results (win rate)
@@ -51,6 +44,18 @@ BabyAI and BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using
   |----------------|----------------|----------------|------------------------------|----------------------------------|
   | Instruct-model | 0.21           | 0.09           | 0.09                         | 0.21                             |
   | Verlog (Ours)  | 1.0            | 1.0            | 1.0                          | 0.69                             |
+
+  > BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
+
+
+* BabyAI Results (win rate)
+
+    | Model          | goto | pickup | pick_up_seq_go_to | open |
+    |----------------|------|--------|-------------------|------|
+    | Instruct-model | 0.88 | 0.41   | 0.22              | 0.09 |
+    | Verlog (Ours)  | 1.0  | 1.0    | 0.9               | 1.0  |
+
+    > BabyAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
 
 ## Technical Report
 
