@@ -20,8 +20,6 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 ## Main Results
 
-
-
 * Crafter Results:  
 
     | Model             | Instruct-model | Verlog (Ours) |
@@ -64,7 +62,7 @@ In the following sections, we explain our design choices, present implementation
 ### Model & Prompt
 
 * **Instruct Model:**
-    For simplicity, we start with the Instruct model, **Qwen-2.5-3B/7B-Instruct**. We chose this over the base model because it allows us to leverage [BALROG](https://github.com/balrog-ai/BALROG) for debugging and to use the benchmark's prompts with minimal modifications.
+    For simplicity, we start with the Instruct model, Qwen-2.5-3B/7B-Instruct. We chose this over the base model because it allows us to leverage [BALROG](https://github.com/balrog-ai/BALROG) for debugging and to use the benchmark's prompts with minimal modifications.
 
 * **Memory Mechanism:**
     Rather than placing the entire trajectory into the context window, we include only the latest $$n+1$$ turns. Each turn, i.e., data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$ , with $$\text{history}_t = \{s_{t-n}, \text{think}_{t-n}, a_{t-n}, ..., s_{t-1}, \text{think}_{t-1}, a_{t-1}\}$$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories.
@@ -95,6 +93,8 @@ In the following sections, we explain our design choices, present implementation
 
 ### Environment
 
+Verlog uses a highly abstract game as its testbed, reducing the need for prompt engineering and allowing researchers to focus on algorithmic design. We detail all engineering aspects below:
+
 * **Valid Action:**
    Improving the valid action ratio through prompt engineering is the simplest and most effective way to boost performance. In our setup, we ensure the model produces valid actions over 95% of the time using the following strategies:
 
@@ -102,19 +102,17 @@ In the following sections, we explain our design choices, present implementation
   
   * Replace invalid actions with a default action: When the LLM outputs an invalid action, the environment rejects it and executes a predefined default action instead. Simultaneously, we replace the invalid action with the default one before appending it to the history buffer. This prevents the agent from mimicking the invalid action in subsequent steps.
     
-We observe that truncating the trajectory upon encountering an invalid action leads to worse performance. Replacing invalid actions with a default action yields better results. In this work, we apply a 0.1 penalty to invalid actions. However, with a high valid action ratio, the format penalty has minimal impact on overall performance.
+  We observe that truncating the trajectory upon encountering an invalid action leads to worse performance. Replacing invalid actions with a default action yields better results. In this work, we apply a 0.1 penalty to invalid actions. However, with a high valid action ratio, the format penalty has minimal impact on overall performance.
 
 * **Reward:**
-    Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, the reward (ranging from 0 to 1) is only available at the end of the trajectory. Longer trajectories generally get lower rewards.
-
-    Here, We adopt a **binary trajectory-level reward** scheme: 1 for success trajectory, 0 for failure trajectory. Combined with dual-discount GAE, this ensures earlier steps in suboptimal trajectories get lower credit than those in optimal ones.
+    Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, we adopt a binary trajectory-level reward scheme: 1 for success trajectory, 0 for failure trajectory. Combined with dual-discount GAE, this setup ensures that earlier steps in suboptimal trajectories receive lower credit compared to those in optimal ones. For Crafter, we use the native environment rewards directly.
 
 * **Batch Environment:**
     Our framework supports asynchronous rollouts and works with any environment using the OpenAI Gym interface. Each training batch size is: `n_env` × `e_len`, where:
     * `n_env` = number of parallel environments
     * `e_len` = episode length per rollout
 
-    Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process. We find that using `e_len = 8`, `n_env = 32` performs better than `e_len = 16`, `n_env = 16`.
+    Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process. 
     
 
 ### Algorithm
