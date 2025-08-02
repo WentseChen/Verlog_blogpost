@@ -112,7 +112,7 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
     * `n_env` = number of parallel environments
     * `e_len` = episode length per rollout
 
-    Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process. 
+    Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process. A longer `e_len` (smaller `n_env`) often leads to better performance, albeit at the cost of lower token throughput.
     
 
 ### Algorithm
@@ -135,13 +135,14 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
     * $$\gamma\lambda = \gamma_{\text{token}} \lambda_{\text{token}}$$, otherwise
     * and $$\delta_t^V = -V(s_t) + r_t + \gamma V(s_{t+1})$$
 
-    The recursion starts from the last token of the final turn and proceeds backward. Once all tokens in the final turn are processed, we move to the last token of the second-to-last turn, and continue this process recursively. 
+    The recursion starts from the last token of the final turn and proceeds backward. Once all tokens in the final turn are processed, we move to the last token of the second-to-last turn, and continue this process recursively. During this process, all state tokens are skipped.
     If a trajectory is truncated at step $$T$$, we store the next state $$s_{T+1}$$ but do not sample $$a_{T+1}$$. Instead, we use the final token of $$s_{T+1}$$ to estimate $$V(s_{T+1})$$, used as the bootstrap value in GAE.
 
 * **Value Function Estimation:**
+  
     * When both $$\gamma$$ and $$\lambda$$ are set to 1.0, the value function serves purely as a baseline in PPO’s advantage estimation. Specifically, the advantage for the $$t$$-th token in the last turn is defined as $$A_{-1,t} = r - V_{-1,t}$$, where $$r$$ is the trajectory reward and $$V_{-1,t}$$ is the value estimate for the $$t$$-th token in the last turn.
 
-    * When $$\lambda$$ are less than 1.0, the value function contributes to the GAE objective beyond serving as a simple baseline. For instance, in our setting with $$\gamma_{\text{step}} = 0.99$$, $$\lambda_{\text{step}} = 0.95$$, and $$\gamma_{\text{token}} = 1.0$$, $$\lambda_{\text{token}} = 1.0$$, where the reward $$r$$ is non-zero only at the end of the trajectory, the advantage for the $$t$$-th token in the second-to-last turn is given by: $$A_{-2,t} = \gamma_{\text{step}}[\lambda_{\text{step}} r + (1-\lambda_{\text{step}}) V_{-1,0}] - V_{-2,t}$$. In fact, in our setting, the value function of the first token in each turn is used to bootstrap the GAE objective for the preceding turn.
+    * When $$\lambda$$ are less than 1.0, the value function contributes to the GAE objective beyond serving as a simple baseline. For instance, in our setting with $$\lambda_{\text{step}} = 0.95$$, $$\gamma_{\text{token}} = 1.0$$, $$\lambda_{\text{token}} = 1.0$$, and the reward $$r$$ is non-zero only at the end of the trajectory, the advantage for the $$t$$-th token in the second-to-last turn is given by: $$A_{-2,t} = \gamma_{\text{step}}[\lambda_{\text{step}} r + (1-\lambda_{\text{step}}) V_{-1,0}] - V_{-2,t}$$. This indicates that, in our setting, the value function of the first token in each turn is used to bootstrap the GAE objective for the preceding turn.
 
     * Since the first token of each turn carries more semantic significance than the subsequent tokens, we assign it a higher weight when training the critic network.
 
@@ -149,19 +150,13 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
     In our setting, we warm up the critic before fine-tuning, as it is used both for bootstrapping truncated trajectories and for computing GAE. That is, we freeze the actor and update only the critic at the beginning of training. Specifically, We collect `w_epoch × batch_size` turns of data at the beginning. For each warmup iteration, we compute the GAE objective with current critic, sample one tenth of the collected data, train the critic, and repeat this process for `w_iter` iterations. We select `w_epoch = 40` and `w_iter = 5` in our experiments, and make sure that the critic loss converges to a small value before fine-tuning the actor.
     
 * **KL-Divergence in Reward:**
-    Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL penalty encourage local exploration around $$\pi_0$$ before divergence.
+    Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL penalty encourage local exploration around $$\pi_0$$ before divergence. We observe an interesting observation related to the KL-Divergence:
 
-    For entorpy term in the PPO loss, we experimented with higher entropy coefficients (e.g., 3e-3, 1e-2), which caused instability.
-
-    We set both entropy and KL reward coefficients to **1e-3**. 
+  * Action Hacking: The LLM's output can be decomposed into a reasoning path and a final action. We plot the average $\mathrm{KL}(\pi | \pi_0)$ for both the reasoning path tokens and the final action tokens. A common failure mode in Crafter arises when the KL divergence of the final action tokens increases significantly faster than that of the reasoning path tokens. In this case, the agent learns to exploit easily accessible rewards early in training by modifying only the final action, without meaningfully improving its underlying reasoning. This leads to poor exploration.
 
 ## Conclusion
 
-In summary, when training an LLM agent using multi-turn RL, the following aspects are critical (in order of importance):
-
-1. Prompt design
-2. Value loss optimization
-3. Exploration
+Beyond all the techniques discussed above, the most important takeaway is this: always read the dialogue generated by the LLM during debugging.
 
 
 
