@@ -152,7 +152,7 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
 * **KL-Divergence in Reward:**
     Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL penalty encourage local exploration around $$\pi_0$$ before divergence. We observe an interesting observation related to the KL-Divergence:
 
-  * Action Hacking: The LLM's output can be decomposed into a reasoning path and a final action. We plot the average $$\mathrm{KL}(\pi | \pi_0)$$ for both the reasoning path tokens and the final action tokens. A common failure mode in Crafter arises when the KL divergence of the final action tokens increases significantly faster than that of the reasoning path tokens. In this case, the agent learns to exploit easily accessible rewards early in training by modifying only the final action, without meaningfully improving its underlying reasoning. This leads to poor exploration.
+  * Action Hacking: The LLM's output can be decomposed into a reasoning path and a final action. We plot the average $$KL(\pi||\pi_0)$$ for both the reasoning path tokens and the final action tokens. A common failure mode in Crafter arises when the KL divergence of the final action tokens increases significantly faster than that of the reasoning path tokens. In this case, the agent learns to exploit easily accessible rewards early in training by modifying only the final action, without meaningfully improving its underlying reasoning. This leads to poor exploration.
 
 ## Conclusion
 
