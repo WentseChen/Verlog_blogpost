@@ -10,17 +10,17 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 ## Key features:  
 
-⏳ Fixed-Turn Batching: For every training batch, a fixed number of turns is collected. If the episode has not terminated, we use the value function instead of relying on final rewards. 
+⏳ Fixed-Turn Batching: For each training batch, we collect a fixed number of turns. If an episode has not yet terminated, we use the value function instead of final rewards as the supervised signal. This approach enables training in environments with highly variable and extended episode lengths.
 
 🧠 Turn-Level Abstraction: Each turn is treated as an independent data point—no need to pack the entire history into the context window. Customize your memory mechanism as needed. 
 
 🚀 Optimized for Long-Horizon Agentic Tasks: Verlog incorporates techniques like Dual Discounting GAE and Critic Pre-training, along with carefully tuned hyperparameters, to ensure strong performance on challenging long-horizon multi-turn benchmarks such as BALROG.
 
-📊 Robust to Long and Variable Trajectories: Verlog is built to handle environments with highly variable and extended episode lengths, such as BabyAI, BabaIsAI, and Crafter. Crafter’s trajectory mean length ranges from 70 to 400 steps, while BabyAI and BabaIsAI both feature maximum episode lengths exceeding 100. These characteristics pose significant challenges for existing codebases, but Verlog ensures efficient training and stable performance even under such long-horizon complexity.
+📊 Robust to Long and Variable Trajectories: Verlog is verified on environments with highly variable and extended episode lengths, such as BabyAI, BabaIsAI, and Crafter. Crafter’s trajectory mean length genreally ranges from 70 to 400 steps, while BabyAI and BabaIsAI both feature maximum episode lengths exceeding 100. These characteristics pose significant challenges for existing codebases, but Verlog ensures efficient training and stable performance even under such long-horizon complexity.
 
 ## Main Results
 
-Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
+> Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
 * Crafter Results:  
 
@@ -54,7 +54,7 @@ BabyAI and BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using
 
 ## Technical Report
 
-We will explain the design choice and introduce the implementation details of the proposed framework in the following sections:
+In the following sections, we explain our design choices, present implementation details, and conclude with potential research questions that our framework could help address.
 
 ### Model & Prompt
 
