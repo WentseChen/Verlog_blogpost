@@ -83,18 +83,16 @@ In the following sections, we explain our design choices, present implementation
 * **Prompt Template:**
     Belows is the prompt template used for BabyAI. The prompts are adapted from [BALROG](https://github.com/balrog-ai/BALROG).
     ```
-    [SYSTEM] You are an agent playing a simple navigation game. 
+    [SYSTEM] You are an agent playing a simple navigation game.
     Your goal is to {MISSION}. 
-    The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. 
-    In a moment I will present you an observation. Tips: {TIPS}.
+    The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. In a moment I will present you an observation. Tips: {TIPS}.
     PLAY!
     ```
     ```
     [USER] {OBSERVATION}
     ```
     ```
-    [ASSISTANT]
-    THINK: {THINK}
+    [ASSISTANT] THINK: {THINK}
     ACTION: {ACTION}
     ```
     ```
