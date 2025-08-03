@@ -142,16 +142,18 @@ In the following sections, we outline our design choices, implementation details
 ### Model & Prompt
 
 * **Instruct Model:**
-    For simplicity, we start with the Instruct model, Qwen-2.5-3B/7B-Instruct. We chose this over the base model because it allows us to leverage [BALROG](https://github.com/balrog-ai/BALROG) for debugging and to use the benchmark's prompts with minimal modifications.
+    We start with the Instruct model, Qwen-2.5-3B/7B-Instruct. We chose this over the base model because it allows us to leverage [BALROG](https://github.com/balrog-ai/BALROG) for debugging and to use the benchmark's prompts with minimal modifications.
 
 * **Memory Mechanism:**
     Rather than placing the entire trajectory into the context window, we include only the latest $$n+1$$ turns. Each turn, i.e., data = $$(\text{history}_t, s_t,$$ $$\text{think}_t, a_t)$$ , with $$\text{history}_t = \{s_{t-n},$$ $$\text{think}_{t-n}, a_{t-n},$$ $$..., s_{t-1},$$ $$\text{think}_{t-1}, a_{t-1}\}$$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories.
 
-  The results show that for the 3B Qwen model, performance peaks at $$n = 1$$ or $$2$$ and degrades as $$n$$ increases to $$4$$ or $$8$$. We hypothesize that this decline is due to the 3B model’s limited capacity to handle long contexts—for example, $$n = 8$$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable tasks, a larger $$n$$ may help. We observed two notable issues related to the memory mechanism:
+  The results show that for the 3B Qwen model, performance peaks at $$n = 1$$ or $$2$$ and degrades as $$n$$ increases to $$4$$ or $$8$$. We hypothesize that this decline is due to the 3B model’s limited capacity to handle long contexts—for example, $$n = 8$$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable tasks, a larger $$n$$ may help.
+
+  We observed two notable issues related to the multi-turn memory mechanism:
 
     * **Mimicking prior reasoning patterns:** The model tends to replicate reasoning styles from earlier turns, reducing the diversity of its thought processes.
   
-    * **Multi-turn hallucinations:** The model struggles to distinguish between actions imagined during reasoning and actual events in the environment. For example, it may plan to "chop a tree then craft a pickaxe" but fail to find a tree in reality—yet still act as if the plan succeeded. This is a unique challenge for LLM-based agents.
+    * **Multi-turn hallucinations:** The model struggles to distinguish between actions imagined during reasoning and actual events in the environment. For example, it may plan to "chop a tree then craft a pickaxe" but fail to find a tree in reality—yet still act as if the plan succeeded. This is a unique challenge for agentic tasks.
  
   We conducted preliminary experiments to address these issues: (1) We tested a variant that includes only the final action in history: data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$, with $$\text{history}_t = \{s_{t-n}, a_{t-n}, ..., s_{t-1}, a_{t-1}\}$$. (2) We tested a variant that periodically clears the history buffer (every 5 steps). Both approaches led to worse performance.
 
@@ -198,7 +200,7 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
 ### Algorithm
 
 * **Dual Discounting GAE:**
-    We decouple token-level discounting $$(\gamma_{\text{token}}, \lambda_{\text{token}})$$ and step-level $$(\gamma_{\text{step}}, \lambda_{\text{step}})$$. We set:
+    To incentivize agents to solve tasks with fewer environment steps, we decouple token-level discounting $$(\gamma_{\text{token}}, \lambda_{\text{token}})$$ and step-level $$(\gamma_{\text{step}}, \lambda_{\text{step}})$$. We set:
 
     * $$\gamma_{\text{step}} = 0.99$$, $$\lambda_{\text{step}} = 0.95$$
     * $$\gamma_{\text{token}} = 1.0$$, $$\lambda_{\text{token}} = 1.0$$
