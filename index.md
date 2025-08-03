@@ -68,12 +68,38 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
     distr_obj → 🎁; 
     two_room → 🚪; 
     distr_obj_rule → 📏;  
-    maybe_break_stop → ⚠️;  
+    maybe_break_stop → ⚠️;
+
+  <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
+          <thead>
+              <tr>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Model</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🏁+🎁</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🚪+🏁</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🚪+🏁+🎁+📏</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🚪+⚠️+🏁</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Instruct-model</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.21</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.09</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.09</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.21</td>
+              </tr>
+              <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Verlog (Ours)</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.69</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
   
-  | Model          | 🏁+🎁         | 🚪+🏁          | 🚪+🏁+🎁+📏                | 🚪+⚠️+🏁                        |
-  |----------------|----------------|----------------|------------------------------|----------------------------------|
-  | Instruct-model | 0.21           | 0.09           | 0.09                         | 0.21                             |
-  | Verlog (Ours)  | 1.0            | 1.0            | 1.0                          | 0.69                             |
 
   > BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
 
