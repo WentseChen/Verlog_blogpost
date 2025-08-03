@@ -30,29 +30,29 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
   </div>
 
   
-<div style="overflow-x: auto;">
-    <table style="width: 100%; min-width: 300px; border-collapse: collapse; font-family: sans-serif;">
-        <thead>
-            <tr>
-                <th style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 2px solid #cccccc; background-color: #cccccc; color: #000;">Metric</th>
-                <th style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 2px solid #cccccc; background-color: #cccccc; color: #000;">Instruct-model</th>
-                <th style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 2px solid #cccccc; background-color: #cccccc; color: #000;">Verlog (Ours)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 1px solid #cccccc;">Rewards</td>
-                <td style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 1px solid #cccccc;">5.80</td>
-                <td style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 1px solid #cccccc; font-weight: bold;">10.44</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; text-align: center; white-space: nowrap;">Trajectory Length</td>
-                <td style="padding: 8px; text-align: center; white-space: nowrap;">172.23</td>
-                <td style="padding: 8px; text-align: center; white-space: nowrap; font-weight: bold;">196.42</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+  <div style="overflow-x: auto;">
+        <table style="width: 100% !important; min-width: 300px !important; border-collapse: collapse !important; font-family: sans-serif !important;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Metric</th>
+                    <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Instruct-model</th>
+                    <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Verlog (Ours)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">Rewards</td>
+                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">5.80</td>
+                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important; font-weight: bold !important;">10.44</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">Trajectory Length</td>
+                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">172.23</td>
+                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; font-weight: bold !important;">196.42</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
 
