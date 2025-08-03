@@ -2,40 +2,6 @@
 layout: default
 ---
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance Comparison</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #1a1a1a;
-            margin: 0;
-            padding: 40px;
-            color: #ffffff;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: #2d2d2d;
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            
-            .container {
-                padding: 20px;
-            }
-        }
-    </style>
-</head>
-
 Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agentic tasks. It extends [VeRL](https://github.com/volcengine/verl) and [BALROG](https://github.com/balrog-ai/BALROG), and follows the core design principles of [pytorch-a2c-ppo-acktr-gail](https://github.com/ikostrikov/pytorch-a2c-ppo-acktr-gail), while introducing tailored modifications for efficient multi-turn learning.
 
 ## Key features:  
@@ -63,31 +29,30 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
     </figure>
   </div>
 
-  <div class="container">
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
-              <thead>
-                <tr>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Metric</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Instruct-model</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Verlog (Ours)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Rewards</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">5.80</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">10.44</td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Trajectory Length</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">172.23</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">196.42</td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-    </div>
+  
+<div style="overflow-x: auto;">
+    <table style="width: 100%; min-width: 300px; border-collapse: collapse; font-family: sans-serif;">
+        <thead>
+            <tr>
+                <th style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 2px solid #cccccc; background-color: #cccccc; color: #000;">Metric</th>
+                <th style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 2px solid #cccccc; background-color: #cccccc; color: #000;">Instruct-model</th>
+                <th style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 2px solid #cccccc; background-color: #cccccc; color: #000;">Verlog (Ours)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 1px solid #cccccc;">Rewards</td>
+                <td style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 1px solid #cccccc;">5.80</td>
+                <td style="padding: 8px; text-align: center; white-space: nowrap; border-bottom: 1px solid #cccccc; font-weight: bold;">10.44</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; text-align: center; white-space: nowrap;">Trajectory Length</td>
+                <td style="padding: 8px; text-align: center; white-space: nowrap;">172.23</td>
+                <td style="padding: 8px; text-align: center; white-space: nowrap; font-weight: bold;">196.42</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 
 
