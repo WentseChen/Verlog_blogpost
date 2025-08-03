@@ -22,13 +22,13 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 * Crafter Results:
 
-  <div style="display: flex; gap: 5px;">
+  <div style="display: flex; gap: 10px;">
     <figure style="text-align: center;">
-      <img src="assets/images/crafter_zeroshot.gif" width="150" />
+      <img src="assets/images/crafter_zeroshot.gif" width="250" />
       <figcaption>Zero-shot policy</figcaption>
     </figure>
     <figure style="text-align: center;">
-      <img src="assets/images/crafter_finetuned.gif" width="150" />
+      <img src="assets/images/crafter_finetuned.gif" width="250" />
       <figcaption>Fine-tuned policy</figcaption>
     </figure>
   </div>
