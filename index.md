@@ -69,11 +69,11 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
       <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
           <thead>
               <tr>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Model</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🏁+🎁</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🚪+🏁</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🚪+🏁+🎁+📏</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">🚪+⚠️+🏁</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Model</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🏁+🎁</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+🏁</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+🏁+🎁+📏</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+⚠️+🏁</th>
               </tr>
           </thead>
           <tbody>
@@ -100,11 +100,35 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 
 * BabyAI Results (win rate)
-
-    | Model          | goto | pickup | pick_up_seq_go_to | open |
-    |----------------|------|--------|-------------------|------|
-    | Instruct-model | 0.88 | 0.41   | 0.22              | 0.09 |
-    | Verlog (Ours)  | 1.0  | 1.0    | 0.9               | 1.0  |
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
+        <thead>
+            <tr>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Model</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">goto</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">pickup</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">pick_up_seq_go_to</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">open</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">Instruct-model</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.88</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.41</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.22</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.09</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Verlog (Ours)</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.9</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
 
     > BabyAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
 
