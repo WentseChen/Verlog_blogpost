@@ -33,6 +33,8 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
     </figure>
   </div>
   
+  <div style="display: flex; ...; margin-bottom: 10px;">
+  
   <div style="overflow-x: auto;">
     <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
       <thead style="background-color: #faeee0;">
