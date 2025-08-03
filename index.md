@@ -21,38 +21,38 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
   <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; flex-wrap: nowrap;">
     <figure style="flex: 1; text-align: center; margin: 0 10px;">
       <img src="assets/images/crafter_zeroshot.gif" style="width: 100%; height: auto; max-width: none;" />
-      <figcaption style="margin-top: 4px; font-size: 14px;">Zero-shot policy</figcaption>
+      <figcaption style="margin-top: 2px; font-size: 14px;">Zero-shot policy</figcaption>
     </figure>
     <figure style="flex: 1; text-align: center; margin: 0 10px;">
       <img src="assets/images/crafter_finetuned.gif" style="width: 100%; height: auto; max-width: none;" />
-      <figcaption style="margin-top: 4px; font-size: 14px;">Fine-tuned policy</figcaption>
+      <figcaption style="margin-top: 2px; font-size: 14px;">Fine-tuned policy</figcaption>
     </figure>
   </div>
-
   
   <div style="overflow-x: auto;">
-        <table style="width: 100% !important; min-width: 300px !important; border-collapse: collapse !important; font-family: sans-serif !important;">
-            <thead>
-                <tr>
-                    <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Metric</th>
-                    <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Instruct-model</th>
-                    <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Verlog (Ours)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">Rewards</td>
-                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">5.80</td>
-                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important; font-weight: bold !important;">10.44</td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">Trajectory Length</td>
-                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">172.23</td>
-                    <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; font-weight: bold !important;">196.42</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table style="width: 100% !important; min-width: 300px !important; border-collapse: collapse !important; font-family: sans-serif !important;">
+        <thead>
+            <tr>
+                <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Metric</th>
+                <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Instruct-model</th>
+                <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Verlog (Ours)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">Rewards</td>
+                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">5.80</td>
+                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important; font-weight: bold !important;">10.44</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">Trajectory Length</td>
+                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">172.23</td>
+                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; font-weight: bold !important;">196.42</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+
 
     > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
