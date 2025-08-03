@@ -5,17 +5,17 @@ layout: default
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agentic tasks. It extends [VeRL](https://github.com/volcengine/verl) and [BALROG](https://github.com/balrog-ai/BALROG), and follows the core design principles of [pytorch-a2c-ppo-acktr-gail](https://github.com/ikostrikov/pytorch-a2c-ppo-acktr-gail), while introducing tailored modifications for efficient multi-turn learning.
+Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agentic tasks. It extends [VeRL](https://github.com/volcengine/verl) and [BALROG](https://github.com/balrog-ai/BALROG), and follows the core design principles of [pytorch-a2c-ppo-acktr-gail](https://github.com/ikostrikov/pytorch-a2c-ppo-acktr-gail), while introducing tailored modifications for efficient multi-turn training.
 
 ## Key features:  
 
-⏳ Fixed-Turn Batching: For each training batch, we collect a fixed number of turns. If an episode has not yet terminated, we use the value function instead of final rewards as the supervised signal. This approach enables training in environments with highly variable and extended episode lengths.
+🎯 Fixed-Turn Batching: For each training batch, we collect a fixed number of turns. If an episode has not yet terminated, we use the value function instead of final rewards as the supervised signal. This approach enables training in environments with highly variable and extended episode lengths.
 
 🧠 Turn-Level Abstraction: Each turn is treated as an independent data point—no need to pack the entire history into the context window. Customize your memory mechanism as needed. 
 
 🚀 Optimized for Long-Horizon Agentic Tasks: Verlog incorporates techniques like Dual Discounting GAE and Critic Pre-training, along with carefully tuned hyperparameters, to ensure strong performance on challenging long-horizon multi-turn benchmarks such as BALROG.
 
-📊 Robust to Long and Variable Trajectories: Verlog is verified on environments with highly variable and extended episode lengths, such as BabyAI, BabaIsAI, and Crafter. Crafter’s trajectory mean length genreally ranges from 70 to 400 steps, while BabyAI and BabaIsAI both feature maximum episode lengths exceeding 100. These characteristics pose significant challenges for existing codebases, but Verlog ensures efficient training and stable performance even under such long-horizon complexity.
+📈 Proven Robustness: Verlog is proven on environments like BabyAI, BabaIsAI, and Crafter, where episode lengths range from 100 to 400+ steps. Verlog delivers stable performance and efficient learning—right out of the box.
 
 ## Main Results
 
