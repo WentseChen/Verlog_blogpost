@@ -22,21 +22,39 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 * Crafter Results:
 
-  <div style="display: flex; gap: 10px;">
+  <div style="display: flex; gap: 5px;">
     <figure style="text-align: center;">
-      <img src="assets/images/crafter_zeroshot.gif" width="250" />
+      <img src="assets/images/crafter_zeroshot.gif" width="245" />
       <figcaption>Zero-shot policy</figcaption>
     </figure>
     <figure style="text-align: center;">
-      <img src="assets/images/crafter_finetuned.gif" width="250" />
+      <img src="assets/images/crafter_finetuned.gif" width="245" />
       <figcaption>Fine-tuned policy</figcaption>
     </figure>
   </div>
+  
+  <table style="border-collapse: collapse; width: 60%; text-align: center; font-family: sans-serif; font-size: 16px;">
+    <thead style="background-color: #f2f2f2;">
+      <tr>
+        <th style="padding: 10px; border-bottom: 2px solid #ccc;">Metric</th>
+        <th style="padding: 10px; border-bottom: 2px solid #ccc;">Instruct-model</th>
+        <th style="padding: 10px; border-bottom: 2px solid #ccc;">Verlog (Ours)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Rewards</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">5.80</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">10.44</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Trajectory Length</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">172.23</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">196.42</td>
+      </tr>
+    </tbody>
+  </table>
 
-    | Model             | Instruct-model | Verlog (Ours) |
-    |-------------------|----------------|---------------|
-    | Rewards           | 5.80           | 10.44         |
-    | Trajectory length | 172.23         | 196.42        |
 
     > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
