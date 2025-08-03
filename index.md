@@ -33,29 +33,31 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
     </figure>
   </div>
 
-  <div style="overflow-x: auto;">
-    <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
-      <thead>
-        <tr>
-          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Metric</th>
-          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Instruct-model</th>
-          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Verlog (Ours)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">Rewards</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">5.80</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">10.44</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">Trajectory Length</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">172.23</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">196.42</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="container">
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
+              <thead>
+                <tr>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Metric</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Instruct-model</th>
+                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Verlog (Ours)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Rewards</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">5.80</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">10.44</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Trajectory Length</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">172.23</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">196.42</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
 
 
 
