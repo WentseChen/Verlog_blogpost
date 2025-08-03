@@ -2,77 +2,6 @@
 layout: default
 ---
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Policy Comparison</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #1a1a1a;
-            margin: 0;
-            padding: 40px;
-            color: #ffffff;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: #2d2d2d;
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .comparison-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
-            flex-wrap: nowrap;
-        }
-
-        figure {
-            flex: 1;
-            text-align: center;
-            margin: 0 10px;
-        }
-
-        img {
-            width: 100%;
-            height: auto;
-            max-width: none;
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-        }
-
-        figcaption {
-            margin-top: 4px;
-            font-size: 14px;
-            color: #cccccc;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            
-            .container {
-                padding: 20px;
-            }
-
-            .comparison-display {
-                flex-wrap: wrap;
-            }
-
-            figure {
-                margin: 10px 0;
-            }
-        }
-    </style>
-</head>
-
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -93,26 +22,24 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 * Crafter Results:
 
-  <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; flex-wrap: nowrap;">
-          <figure style="flex: 1; text-align: center; margin: 0 10px;">
-              <img src="assets/images/crafter_zeroshot.gif" style="width: 100%; height: auto; max-width: none;" />
-              <figcaption style="margin-top: 4px; font-size: 14px;">Zero-shot policy</figcaption>
-          </figure>
-          <figure style="flex: 1; text-align: center; margin: 0 10px;">
-              <img src="assets/images/crafter_finetuned.gif" style="width: 100%; height: auto; max-width: none;" />
-              <figcaption style="margin-top: 4px; font-size: 14px;">Fine-tuned policy</figcaption>
-          </figure>
-      </div>
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; flex-wrap: nowrap;">
+    <figure style="flex: 1; text-align: center; margin: 0 10px;">
+      <img src="assets/images/crafter_zeroshot.gif" style="width: 100%; height: auto; max-width: none;" />
+      <figcaption style="margin-top: 4px; font-size: 14px;">Zero-shot policy</figcaption>
+    </figure>
+    <figure style="flex: 1; text-align: center; margin: 0 10px;">
+      <img src="assets/images/crafter_finetuned.gif" style="width: 100%; height: auto; max-width: none;" />
+      <figcaption style="margin-top: 4px; font-size: 14px;">Fine-tuned policy</figcaption>
+    </figure>
   </div>
 
   <div style="overflow-x: auto;">
     <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
       <thead>
         <tr>
-          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Metric</th>
-          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Instruct-model</th>
-          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #feedde !important; color: #000;">Verlog (Ours)</th>
+          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Metric</th>
+          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Instruct-model</th>
+          <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Verlog (Ours)</th>
         </tr>
       </thead>
       <tbody>
@@ -129,6 +56,7 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
       </tbody>
     </table>
   </div>
+
 
 
 
