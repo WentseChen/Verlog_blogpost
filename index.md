@@ -54,9 +54,6 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
         </table>
     </div>
 
-
-
-
     > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
 
