@@ -5,15 +5,17 @@ layout: default
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-<a href="https://github.com/WentseChen/Verlog" target="_blank" style="text-decoration: none;">
-  <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" width="30" height="30" style="vertical-align: middle;">
-  <span style="vertical-align: middle; font-size: 16px; margin-left: 6px;">Source Code</span>
-</a>
-&nbsp;&nbsp;&nbsp;
-<a href="https://wandb.ai/cwz19/verlog" target="_blank" style="text-decoration: none;">
-  <img src="https://raw.githubusercontent.com/wandb/assets/main/wandb-dots-logo.svg" alt="W&B" width="30" height="30" style="vertical-align: middle;">
-  <span style="vertical-align: middle; font-size: 16px; margin-left: 6px;">Experiment Logs</span>
-</a>
+<div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 24px; width: 100%;">
+  <a href="https://github.com/your-username/your-repo" target="_blank" style="text-decoration: none; display: flex; align-items: center;">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" width="30" height="30" style="vertical-align: middle;">
+    <span style="vertical-align: middle; font-size: 16px; margin-left: 6px;">Source Code</span>
+  </a>
+
+  <a href="https://wandb.ai/your-project" target="_blank" style="text-decoration: none; display: flex; align-items: center;">
+    <img src="https://raw.githubusercontent.com/wandb/assets/main/wandb-dots-logo.svg" alt="W&B" width="30" height="30" style="vertical-align: middle;">
+    <span style="vertical-align: middle; font-size: 16px; margin-left: 6px;">Experiment Logs</span>
+  </a>
+</div>
 
 Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agentic tasks. It extends [VeRL](https://github.com/volcengine/verl) and [BALROG](https://github.com/balrog-ai/BALROG), and follows the core design principles of [pytorch-a2c-ppo-acktr-gail](https://github.com/ikostrikov/pytorch-a2c-ppo-acktr-gail), while introducing tailored modifications for efficient multi-turn training.
 
