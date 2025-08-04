@@ -5,6 +5,14 @@ layout: default
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+<a href="https://github.com/your-username/your-repo" target="_blank">
+  <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" width="30" height="30">
+</a>
+&nbsp;
+<a href="https://wands.cs.washington.edu/" target="_blank">
+  <img src="https://img.icons8.com/ios-filled/50/magic-wand.png" alt="WANDS" width="30" height="30">
+</a>
+
 Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agentic tasks. It extends [VeRL](https://github.com/volcengine/verl) and [BALROG](https://github.com/balrog-ai/BALROG), and follows the core design principles of [pytorch-a2c-ppo-acktr-gail](https://github.com/ikostrikov/pytorch-a2c-ppo-acktr-gail), while introducing tailored modifications for efficient multi-turn training.
 
 ## Key features:  
