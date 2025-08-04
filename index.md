@@ -200,6 +200,11 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
 ### Algorithm
 
 * **Dual Discounting GAE:**
+
+    <div style="width: 100%;">
+      <img src="assets/images/algo.gif" style="width: 100%; height: auto;" />
+    </div>
+    
     To incentivize agents to solve tasks with fewer environment steps, we decouple token-level discounting $$(\gamma_{\text{token}}, \lambda_{\text{token}})$$ and step-level $$(\gamma_{\text{step}}, \lambda_{\text{step}})$$. We set:
 
     * $$\gamma_{\text{step}} = 0.99$$, $$\lambda_{\text{step}} = 0.95$$
