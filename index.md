@@ -129,17 +129,17 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
         <tbody>
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">Instruct-model</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.88</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.41</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.22</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.09</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.88 &plusmn; 0.06</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.41 &plusmn; 0.09</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.22 &plusmn; 0.07</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.09 &plusmn; 0.05</td>
             </tr>
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Verlog (Ours)</td>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.9</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.00 &plusmn; 0.16</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.65 &plusmn; 0.16</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.94 &plusmn; 0.07</td>
             </tr>
         </tbody>
     </table>
