@@ -21,13 +21,13 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
 
 ## Key features:  
 
-🎯 Fixed-Turn Batching: For each training batch, we collect a fixed number of turns. If an episode has not yet terminated, we use the value function instead of final rewards as the supervised signal. This approach enables training in environments with highly variable and extended episode lengths.
+🧠 Turn-Level Abstraction: To handle extremely long episodes, we treat each turn as an independent training sample. This eliminates the need to encode the entire trajectory into a single context window and allows for modular, customizable memory architectures.
 
-🧠 Turn-Level Abstraction: Each turn is treated as an independent data point—no need to pack the entire history into the context window. Customize your memory mechanism as needed. 
+🎯 Fixed-Turn Batching: To address the high variance in episode lengths across environments, we use fixed-turn batching. Each training batch contains a fixed number of turns. For incomplete episodes, we replace final rewards with value function estimates as the supervision signal.
 
-🚀 Optimized for Long-Horizon Agentic Tasks: Verlog incorporates techniques like Dual Discounting GAE and Critic Pre-training, along with carefully tuned hyperparameters, to ensure strong performance on challenging long-horizon multi-turn benchmarks such as BALROG.
+🛠️ Tailored for Multi-Turn RL: To address the unique challenges of multi-turn RL, we introduce a set of targeted techniques such as Dual Discounting GAE and Critic Pre-training, combined with carefully tuned hyperparameters to ensure efficient and stable learning.
 
-📈 Proven Robustness: Verlog is proven on environments like BabyAI, BabaIsAI, and Crafter, where episode lengths range from 100 to 400+ steps. Verlog delivers stable performance and efficient learning—right out of the box.
+📊 Validated Across Challenging Environments: Our approach has been empirically validated on diverse environments characterized by long horizons and high episode length variance, including BabyAI, BabaIsAI, and Crafter. It consistently demonstrates stable learning dynamics and strong performance out of the box. For instance, in Crafter, episode lengths range from 70 to 400 steps, with an average around 190.
 
 ## Main Results
 
@@ -154,7 +154,8 @@ In the following sections, we outline our design choices, implementation details
 ### Model & Prompt
 
 * **Instruct Model:**
-    We start with the Instruct model, Qwen-2.5-3B/7B-Instruct. We chose this over the base model because it allows us to leverage [BALROG](https://github.com/balrog-ai/BALROG) for debugging and to use the benchmark's prompts with minimal modifications.
+
+    We begin with the Instruct variant of Qwen-2.5 (Qwen-2.5-3B/7B-Instruct), rather than the base model, for two key reasons. First, it enables seamless integration with [BALROG](https://github.com/balrog-ai/BALROG), a framework designed to evaluate the zero-shot performance of instruct models across a range of benchmarks. Second, it allows us to use the benchmark's prompts with minimal modifications
 
 * **Memory Mechanism:**
     Rather than placing the entire trajectory into the context window, we include only the latest $$n+1$$ turns. Each turn, i.e., data = $$(\text{history}_t, s_t,$$ $$\text{think}_t, a_t)$$ , with $$\text{history}_t = \{s_{t-n},$$ $$\text{think}_{t-n}, a_{t-n},$$ $$..., s_{t-1},$$ $$\text{think}_{t-1}, a_{t-1}\}$$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories.
