@@ -101,7 +101,7 @@ Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agenti
               </tr>
               <tr>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Verlog (Ours)</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.00 &plusmn; 0.00</td>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.0</td>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.69</td>
