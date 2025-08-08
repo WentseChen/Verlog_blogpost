@@ -262,14 +262,14 @@ Amid all these fancy techniques, the golden rule remains: always actually read w
 
 > If you find Verlog useful, please consider citing our workshop [paper](https://openreview.net/forum?id=6CE5PLsZdW). The full version is coming soon!
 > ```
-  @inproceedings{
-  chen2025contextlite,
-  title={Context-lite Multi-turn Reinforcement Learning for {LLM} Agents},
-  author={Wentse Chen and Jiayu Chen and Hao Zhu and Jeff Schneider},
-  booktitle={ES-FoMo III: 3rd Workshop on Efficient Systems for Foundation Models},
-  year={2025},
-  url={https://openreview.net/forum?id=6CE5PLsZdW}
-  }
-  ```
+> @inproceedings{
+> chen2025contextlite,
+> title={Context-lite Multi-turn Reinforcement Learning for {LLM} Agents},
+> author={Wentse Chen and Jiayu Chen and Hao Zhu and Jeff Schneider},
+> booktitle={ES-FoMo III: 3rd Workshop on Efficient Systems for Foundation Models},
+> year={2025},
+> url={https://openreview.net/forum?id=6CE5PLsZdW}
+> }
+> ```
 
 
