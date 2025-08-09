@@ -23,7 +23,7 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 🧠 Turn-Level Abstraction: To handle extremely long episodes, we treat each turn as an independent training sample. This eliminates the need to encode the entire trajectory into a single context window and allows for modular, customizable [memory architectures](#memory-mechanism).
 
-🎯 Fixed-Turn Batching: To address the high variance in episode lengths across environments, we use fixed-turn batching. Each training batch contains a fixed number of turns. For incomplete episodes, we replace final rewards with value function estimates as the supervision signal.
+🎯 Fixed-Turn Batching: To address the high variance in episode lengths across environments, we use [fixed-turn batching](#batch-environment-(fixed-turn-batching)). Each training batch contains a fixed number of turns. For incomplete episodes, we replace final rewards with value function estimates as the supervision signal.
 
 🛠️ Tailored for Multi-Turn RL: To address the unique challenges of multi-turn RL, we introduce a set of targeted techniques such as Dual Discounting GAE and Critic Pre-training, combined with carefully tuned hyperparameters to ensure efficient and stable learning.
 
