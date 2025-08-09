@@ -27,11 +27,10 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 🛠️ Tailored for Multi-Turn RL: To address the unique challenges of multi-turn RL, we introduce a set of targeted techniques such as Dual Discounting GAE and Critic Pre-training, combined with carefully tuned hyperparameters to ensure efficient and stable learning.
 
-📊 Validated Across Challenging Environments: Our approach has been empirically validated on diverse environments characterized by long horizons and high episode length variance, including BabyAI, BabaIsAI, and Crafter. It consistently demonstrates stable learning dynamics and strong performance out of the box. For instance, in Crafter, episode lengths range from 70 to 400 steps, with an average around 190.
 
 ## Main Results
 
-* Crafter Results:
+### Crafter Results:
 
   <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; flex-wrap: nowrap;">
     <figure style="flex: 1; text-align: center; margin: 0 10px 20px 10px;">
@@ -72,7 +71,7 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
     > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
 
-* BabaIsAI Results (win rate)
+### BabaIsAI Results (win rate)
 
     goto_win → 🏁; 
     distr_obj → 🎁; 
@@ -114,7 +113,7 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
   > BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
 
 
-* BabyAI Results (win rate)
+### BabyAI Results (win rate)
   <div style="overflow-x: auto;">
     <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
         <thead>
@@ -153,11 +152,11 @@ In the following sections, we outline our design choices, implementation details
 
 ### Model & Prompt
 
-* **Instruct Model:**
+#### **Instruct Model:**
 
     We begin with the Instruct variant of Qwen-2.5 (Qwen-2.5-3B/7B-Instruct), rather than the base model, for two key reasons. First, it enables seamless integration with [BALROG](https://github.com/balrog-ai/BALROG), a framework designed to evaluate the zero-shot performance of instruct models across a range of benchmarks. Second, it allows us to use the benchmark's prompts with minimal modifications
 
-* **Memory Mechanism:**
+#### **Memory Mechanism:**
     Rather than placing the entire trajectory into the context window, we include only the latest $$n+1$$ turns. Each turn, i.e., data = $$(\text{history}_t, s_t,$$ $$\text{think}_t, a_t)$$ , with $$\text{history}_t = \{s_{t-n},$$ $$\text{think}_{t-n}, a_{t-n},$$ $$..., s_{t-1},$$ $$\text{think}_{t-1}, a_{t-1}\}$$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories.
 
   The results show that for the 3B Qwen model, performance peaks at $$n = 1$$ or $$2$$ and degrades as $$n$$ increases to $$4$$ or $$8$$. We hypothesize that this decline is due to the 3B model’s limited capacity to handle long contexts—for example, $$n = 8$$ yields a prompt of approximately 4.6k tokens. Whether this trend holds for larger models is an open question. Notably, the tasks we evaluate can be framed as Markov Decision Processes (MDPs). In more complex or partially observable tasks, a larger $$n$$ may help.
@@ -170,7 +169,7 @@ In the following sections, we outline our design choices, implementation details
  
   We conducted preliminary experiments to address these issues: (1) We tested a variant that includes only the final action in history: data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$, with $$\text{history}_t = \{s_{t-n}, a_{t-n}, ..., s_{t-1}, a_{t-1}\}$$. (2) We tested a variant that periodically clears the history buffer (every 5 steps). Both approaches led to worse performance.
 
-* **Prompt Template:**
+#### **Prompt Template:**
     Belows is the prompt template used for BabyAI. The prompts are adapted from [BALROG](https://github.com/balrog-ai/BALROG).
     ```
     [SYSTEM] You are an agent playing a simple navigation game. Your goal is to {MISSION}. The following are the possible actions you can take in the game, followed by a short description of each action: {AVAILABLE ACTIONS}. In a moment I will present you an observation. Tips: {TIPS}. PLAY!
@@ -190,7 +189,7 @@ In the following sections, we outline our design choices, implementation details
 
 Verlog uses a highly abstract game as its testbed, reducing the need for prompt engineering and allowing researchers to focus on algorithmic design. We detail all engineering aspects below:
 
-* **Valid Action:**
+#### **Valid Action:**
    Improving the valid action ratio through prompt engineering is the simplest and most effective way to boost performance. In our setup, we ensure the model produces valid actions over 95% of the time using the following strategies:
 
   * Hardcoded action translation: Certain invalid actions are frequently produced by zero-shot LLMs (e.g., "Move forward" and "Go forward"). We implement a hand-crafted translation function to map these to valid actions, preventing them from lowering the valid action ratio.
@@ -199,10 +198,10 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
     
   We observe that truncating the trajectory upon encountering an invalid action leads to worse performance. Replacing invalid actions with a default action yields better results. In this work, we apply a 0.1 penalty to invalid actions. However, with a high valid action ratio, the format penalty has minimal impact on overall performance.
 
-* **Reward:**
+#### **Reward:**
     Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, we adopt a binary trajectory-level reward scheme: 1 for success trajectory, 0 for failure trajectory. Combined with dual-discount GAE, this setup ensures that earlier steps in suboptimal trajectories receive lower credit compared to those in optimal ones. For Crafter, we use the native environment rewards directly.
 
-* **Batch Environment (Fixed-Turn Batching):**
+#### **Batch Environment (Fixed-Turn Batching):**
 
     <img src="assets/images/system.jpg" alt="Description" style="max-width:100%; height:auto;">
     
@@ -215,7 +214,7 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
 
 ### Algorithm
 
-* **Dual Discounting GAE:**
+#### **Dual Discounting GAE:**
 
     <div style="width: 100%;">
       <img src="assets/images/algo.gif" style="width: 100%; height: auto;" />
@@ -241,7 +240,7 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
     The recursion starts from the last token of the final turn and proceeds backward. Once all tokens in the final turn are processed, we move to the last token of the second-to-last turn, and continue this process recursively. During this process, all state tokens are skipped.
     If a trajectory is truncated at step $$T$$, we store the next state $$s_{T+1}$$ but do not sample $$a_{T+1}$$. Instead, we use the final token of $$s_{T+1}$$ to estimate $$V(s_{T+1})$$, used as the bootstrap value in GAE.
 
-* **Value Function Estimation:**
+#### **Value Function Estimation:**
   
     * When both $$\gamma$$ and $$\lambda$$ are set to 1.0, the value function serves purely as a baseline in PPO’s advantage estimation. Specifically, the advantage for the $$t$$-th token in the last turn is defined as $$A_{-1,t} = r - V_{-1,t}$$, where $$r$$ is the trajectory reward and $$V_{-1,t}$$ is the value estimate for the $$t$$-th token in the last turn.
 
@@ -249,10 +248,10 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
 
     * In our setting, the value of the first token of each turn carries more semantic significance than the subsequent tokens, we assign it a higher weight when training the critic network.
 
-* **Critic Warmup:**
+#### **Critic Warmup:**
     In our setting, we warm up the critic before fine-tuning, as it is used both for bootstrapping truncated trajectories and for computing GAE. That is, we freeze the actor and update only the critic at the beginning of training. Specifically, We collect `w_epoch × batch_size` turns of data at the beginning. For each warmup iteration, we compute the GAE objective with current critic, sample one tenth of the collected data, train the critic, and repeat this process for `w_iter` iterations. We select `w_epoch = 40` and `w_iter = 5` in our experiments, and make sure that the critic loss converges to a small value before fine-tuning the actor.
     
-* **KL-Divergence in Reward:**
+#### **KL-Divergence in Reward:**
     Adding a KL-divergence term $$KL(\pi||\pi_0)$$ in reward stabilizes training. Without it, the policy quickly drifts from $$\pi_0$$ and converges to poor solutions. KL penalty encourage local exploration around $$\pi_0$$ before divergence. We observe an interesting observation related to the KL-Divergence:
 
   - Action Hacking: The LLM's output can be decomposed into a reasoning path and a final action. We plot the average KL-divergence between $$\pi$$ and $$\pi_0$$ for both the reasoning path tokens and the final action tokens. A common failure mode in Crafter arises when the KL divergence of the final action tokens increases significantly faster than that of the reasoning path tokens. In this case, the agent learns to exploit easily accessible rewards early in training by modifying only the final action, without meaningfully improving its underlying reasoning. This leads to poor exploration.
