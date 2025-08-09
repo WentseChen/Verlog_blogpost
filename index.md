@@ -171,7 +171,7 @@ We observed two notable issues related to the multi-turn memory mechanism:
  
 We conducted preliminary experiments to address these issues: (1) We tested a variant that includes only the final action in history: data = $$(\text{history}_t, s_t, \text{think}_t, a_t)$$, with $$\text{history}_t = \{s_{t-n}, a_{t-n}, ..., s_{t-1}, a_{t-1}\}$$. (2) We tested a variant that periodically clears the history buffer (every 5 steps). Both approaches led to worse performance.
 
-#### **Prompt Template:**
+#### Prompt Template
     
 Belows is the prompt template used for BabyAI. The prompts are adapted from [BALROG](https://github.com/balrog-ai/BALROG).
 ```
@@ -192,56 +192,58 @@ We recommend always examining the model’s zero-shot outputs before training. S
 
 Verlog uses a highly abstract game as its testbed, reducing the need for prompt engineering and allowing researchers to focus on algorithmic design. We detail all engineering aspects below:
 
-#### **Valid Action:**
-   Improving the valid action ratio through prompt engineering is the simplest and most effective way to boost performance. In our setup, we ensure the model produces valid actions over 95% of the time using the following strategies:
+#### Valid Action
+  
+Improving the valid action ratio through prompt engineering is the simplest and most effective way to boost performance. In our setup, we ensure the model produces valid actions over 95% of the time using the following strategies:
 
   * Hardcoded action translation: Certain invalid actions are frequently produced by zero-shot LLMs (e.g., "Move forward" and "Go forward"). We implement a hand-crafted translation function to map these to valid actions, preventing them from lowering the valid action ratio.
   
   * Replace invalid actions with a default action: When the LLM outputs an invalid action, the environment rejects it and executes a predefined default action instead. Simultaneously, we replace the invalid action with the default one before appending it to the history buffer. This prevents the agent from mimicking the invalid action in subsequent steps.
     
-  We observe that truncating the trajectory upon encountering an invalid action leads to worse performance. Replacing invalid actions with a default action yields better results. In this work, we apply a 0.1 penalty to invalid actions. However, with a high valid action ratio, the format penalty has minimal impact on overall performance.
+We observe that truncating the trajectory upon encountering an invalid action leads to worse performance. Replacing invalid actions with a default action yields better results. In this work, we apply a 0.1 penalty to invalid actions. However, with a high valid action ratio, the format penalty has minimal impact on overall performance.
 
-#### **Reward:**
-    Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, we adopt a binary trajectory-level reward scheme: 1 for success trajectory, 0 for failure trajectory. Combined with dual-discount GAE, this setup ensures that earlier steps in suboptimal trajectories receive lower credit compared to those in optimal ones. For Crafter, we use the native environment rewards directly.
+#### Reward
+  
+Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, we adopt a binary trajectory-level reward scheme: 1 for success trajectory, 0 for failure trajectory. Combined with dual-discount GAE, this setup ensures that earlier steps in suboptimal trajectories receive lower credit compared to those in optimal ones. For Crafter, we use the native environment rewards directly.
 
-#### **Batch Environment (Fixed-Turn Batching):**
+#### Batch Environment (Fixed-Turn Batching)
 
-    <img src="assets/images/system.jpg" alt="Description" style="max-width:100%; height:auto;">
+<img src="assets/images/system.jpg" alt="Description" style="max-width:100%; height:auto;">
     
-    Our framework supports asynchronous rollouts and works with any environment using the OpenAI Gym interface. Each training batch size is: `n_env` × `e_len`, where:
-    * `n_env` = number of parallel environments
-    * `e_len` = episode length per rollout
+Our framework supports asynchronous rollouts and works with any environment using the OpenAI Gym interface. Each training batch size is: `n_env` × `e_len`, where:
+  * `n_env` = number of parallel environments
+  * `e_len` = episode length per rollout
 
-    Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process. A longer `e_len` (smaller `n_env`) often leads to better performance, albeit at the cost of lower token throughput.
+Note: `e_len` can be smaller than the environment's trajectory length. For example, we set `e_len = 8` and max trajectory length = 128 in BabyAI. For early truncated trajectories, we leverage the value function to guide the training process. A longer `e_len` (smaller `n_env`) often leads to better performance, albeit at the cost of lower token throughput.
     
 
 ### Algorithm
 
 #### **Dual Discounting GAE:**
 
-    <div style="width: 100%;">
-      <img src="assets/images/algo.gif" style="width: 100%; height: auto;" />
-    </div>
+<div style="width: 100%;">
+  <img src="assets/images/algo.gif" style="width: 100%; height: auto;" />
+</div>
     
-    To incentivize agents to solve tasks with fewer environment steps, we decouple token-level discounting $$(\gamma_{\text{token}}, \lambda_{\text{token}})$$ and step-level $$(\gamma_{\text{step}}, \lambda_{\text{step}})$$. We set:
+To incentivize agents to solve tasks with fewer environment steps, we decouple token-level discounting $$(\gamma_{\text{token}}, \lambda_{\text{token}})$$ and step-level $$(\gamma_{\text{step}}, \lambda_{\text{step}})$$. We set:
 
-    * $$\gamma_{\text{step}} = 0.99$$, $$\lambda_{\text{step}} = 0.95$$
-    * $$\gamma_{\text{token}} = 1.0$$, $$\lambda_{\text{token}} = 1.0$$
+  * $$\gamma_{\text{step}} = 0.99$$, $$\lambda_{\text{step}} = 0.95$$
+  * $$\gamma_{\text{token}} = 1.0$$, $$\lambda_{\text{token}} = 1.0$$
 
-    The GAE is computed recursively:
+The GAE is computed recursively:
 
-    $$
-    \hat{A}_t = \gamma\lambda \hat{A}_{t+1} + \delta_t^V
-    $$
+$$
+\hat{A}_t = \gamma\lambda \hat{A}_{t+1} + \delta_t^V
+$$
 
-    where:
+where:
 
-    * $$\gamma\lambda = \gamma_{\text{step}} \lambda_{\text{step}}$$, if tokens are from different turns
-    * $$\gamma\lambda = \gamma_{\text{token}} \lambda_{\text{token}}$$, otherwise
-    * and $$\delta_t^V = -V(s_t) + r_t + \gamma V(s_{t+1})$$
+  * $$\gamma\lambda = \gamma_{\text{step}} \lambda_{\text{step}}$$, if tokens are from different turns
+  * $$\gamma\lambda = \gamma_{\text{token}} \lambda_{\text{token}}$$, otherwise
+  * and $$\delta_t^V = -V(s_t) + r_t + \gamma V(s_{t+1})$$
 
-    The recursion starts from the last token of the final turn and proceeds backward. Once all tokens in the final turn are processed, we move to the last token of the second-to-last turn, and continue this process recursively. During this process, all state tokens are skipped.
-    If a trajectory is truncated at step $$T$$, we store the next state $$s_{T+1}$$ but do not sample $$a_{T+1}$$. Instead, we use the final token of $$s_{T+1}$$ to estimate $$V(s_{T+1})$$, used as the bootstrap value in GAE.
+The recursion starts from the last token of the final turn and proceeds backward. Once all tokens in the final turn are processed, we move to the last token of the second-to-last turn, and continue this process recursively. During this process, all state tokens are skipped.
+If a trajectory is truncated at step $$T$$, we store the next state $$s_{T+1}$$ but do not sample $$a_{T+1}$$. Instead, we use the final token of $$s_{T+1}$$ to estimate $$V(s_{T+1})$$, used as the bootstrap value in GAE.
 
 #### **Value Function Estimation:**
   
