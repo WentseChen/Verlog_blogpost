@@ -69,19 +69,15 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
-
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-
-  <figure style="flex: 0 0 50%; max-width: 50%; margin: 0;">
-    <img src="assets/images/babyai.gif" style="width: 100%; height: auto;" alt="First GIF" />
-    <figcaption style="text-align: center; font-size: 0.9em; margin-top: 6px;">BabyAI open</figcaption>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; flex-wrap: nowrap;">
+  <figure style="flex: 1; text-align: center; margin: 0 10px 20px 10px;">
+    <img src="assets/images/babyai.gif" style="width: 100%; height: auto; max-width: none; display: block; margin: 0;" />
+    <figcaption style="margin: 0; padding: 0; font-size: 14px; line-height: 1;">BabyAI open</figcaption>
   </figure>
-
-  <figure style="flex: 0 0 50%; max-width: 50%; margin: 0;">
-    <img src="assets/images/babaisai.gif" style="width: 100%; height: auto;" alt="Second GIF" />
-    <figcaption style="text-align: center; font-size: 0.9em; margin-top: 6px;">BabaIsAI two_room-maybe_break_stop-goto_win</figcaption>
+  <figure style="flex: 1; text-align: center; margin: 0 10px 20px 10px;">
+    <img src="assets/images/babaisai.gif" style="width: 100%; height: auto; max-width: none; display: block; margin: 0;" />
+    <figcaption style="margin: 0; padding: 0; font-size: 14px; line-height: 1;">BabaIsAI two_room-maybe_break_stop-goto_win</figcaption>
   </figure>
-
 </div>
 
 ### BabaIsAI Results (win rate)
