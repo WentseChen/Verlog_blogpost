@@ -32,119 +32,120 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 ### Crafter Results:
 
-  <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; flex-wrap: nowrap;">
-    <figure style="flex: 1; text-align: center; margin: 0 10px 20px 10px;">
-      <img src="assets/images/crafter_zeroshot.gif" style="width: 100%; height: auto; max-width: none; display: block; margin: 0;" />
-      <figcaption style="margin: 0; padding: 0; font-size: 14px; line-height: 1;">Zero-shot policy</figcaption>
-    </figure>
-    <figure style="flex: 1; text-align: center; margin: 0 10px 20px 10px;">
-      <img src="assets/images/crafter_finetuned.gif" style="width: 100%; height: auto; max-width: none; display: block; margin: 0;" />
-      <figcaption style="margin: 0; padding: 0; font-size: 14px; line-height: 1;">Fine-tuned policy</figcaption>
-    </figure>
-  </div>
-  
-  <div style="overflow-x: auto;">
-    <table style="width: 100% !important; min-width: 300px !important; border-collapse: collapse !important; font-family: sans-serif !important;">
-        <thead>
-            <tr>
-                <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Metric</th>
-                <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Instruct-model</th>
-                <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Verlog (Ours)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">Rewards</td>
-                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">5.80</td>
-                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important; font-weight: bold !important;">10.44</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">Trajectory Length</td>
-                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">172.23</td>
-                <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; font-weight: bold !important;">196.42</td>
-            </tr>
-        </tbody>
-    </table>
-  </div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; flex-wrap: nowrap;">
+  <figure style="flex: 1; text-align: center; margin: 0 10px 20px 10px;">
+    <img src="assets/images/crafter_zeroshot.gif" style="width: 100%; height: auto; max-width: none; display: block; margin: 0;" />
+    <figcaption style="margin: 0; padding: 0; font-size: 14px; line-height: 1;">Zero-shot policy</figcaption>
+  </figure>
+  <figure style="flex: 1; text-align: center; margin: 0 10px 20px 10px;">
+    <img src="assets/images/crafter_finetuned.gif" style="width: 100%; height: auto; max-width: none; display: block; margin: 0;" />
+    <figcaption style="margin: 0; padding: 0; font-size: 14px; line-height: 1;">Fine-tuned policy</figcaption>
+  </figure>
+</div>
+
+<div style="overflow-x: auto;">
+  <table style="width: 100% !important; min-width: 300px !important; border-collapse: collapse !important; font-family: sans-serif !important;">
+      <thead>
+          <tr>
+              <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Metric</th>
+              <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Instruct-model</th>
+              <th style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 2px solid #cccccc !important; background-color: #cccccc !important; color: #000 !important;">Verlog (Ours)</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">Rewards</td>
+              <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important;">5.80</td>
+              <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; border-bottom: 1px solid #cccccc !important; font-weight: bold !important;">10.44</td>
+          </tr>
+          <tr>
+              <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">Trajectory Length</td>
+              <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important;">172.23</td>
+              <td style="padding: 8px !important; text-align: center !important; white-space: nowrap !important; font-weight: bold !important;">196.42</td>
+          </tr>
+      </tbody>
+  </table>
+</div>
 
 
-    > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
+> Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
 
 ### BabaIsAI Results (win rate)
 
-    goto_win → 🏁; 
-    distr_obj → 🎁; 
-    two_room → 🚪; 
-    distr_obj_rule → 📏;  
-    maybe_break_stop → ⚠️;
+goto_win → 🏁; 
+distr_obj → 🎁; 
+two_room → 🚪; 
+distr_obj_rule → 📏;  
+maybe_break_stop → ⚠️;
 
-  <div style="overflow-x: auto;">
-      <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
-          <thead>
-              <tr>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Model</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🏁+🎁</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+🏁</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+🏁+📏</th>
-                  <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+⚠️+🏁</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Instruct-model</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.66 &plusmn; 0.08</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.03 &plusmn; 0.03</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.22 &plusmn; 0.07</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.19 &plusmn; 0.07</td>
-              </tr>
-              <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Verlog (Ours)</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.00 &plusmn; 0.00</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.89 &plusmn; 0.17</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.89 &plusmn; 0.11</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.36 &plusmn; 0.07</td>
-              </tr>
-          </tbody>
-      </table>
-  </div>
-  
-
-  > BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
-
-
-### BabyAI Results (win rate)
-  <div style="overflow-x: auto;">
+<div style="overflow-x: auto;">
     <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
         <thead>
             <tr>
                 <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Model</th>
-                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">goto</th>
-                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">pickup</th>
-                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">pick_up_seq_go_to</th>
-                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">open</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🏁+🎁</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+🏁</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+🏁+📏</th>
+                <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">🚪+⚠️+🏁</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">Instruct-model</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.88 &plusmn; 0.06</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.41 &plusmn; 0.09</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.66 &plusmn; 0.08</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.03 &plusmn; 0.03</td>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.22 &plusmn; 0.07</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.09 &plusmn; 0.05</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.19 &plusmn; 0.07</td>
             </tr>
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Verlog (Ours)</td>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.00 &plusmn; 0.00</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.00 &plusmn; 0.00</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.65 &plusmn; 0.16</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.94 &plusmn; 0.07</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.89 &plusmn; 0.17</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.89 &plusmn; 0.11</td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.36 &plusmn; 0.07</td>
             </tr>
         </tbody>
     </table>
-  </div>
+</div>
 
-    > BabyAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
+
+> BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
+
+
+### BabyAI Results (win rate)
+
+<div style="overflow-x: auto;">
+  <table style="width: 100%; border-collapse: collapse; text-align: center; font-family: sans-serif;">
+      <thead>
+          <tr>
+              <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">Model</th>
+              <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">goto</th>
+              <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">pickup</th>
+              <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">pick_up_seq_go_to</th>
+              <th style="padding: 10px; border-bottom: 2px solid #ddd; background-color: #cccccc !important; color: #000;">open</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">Instruct-model</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.88 &plusmn; 0.06</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.41 &plusmn; 0.09</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.22 &plusmn; 0.07</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd;">0.09 &plusmn; 0.05</td>
+          </tr>
+          <tr>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Verlog (Ours)</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.00 &plusmn; 0.00</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">1.00 &plusmn; 0.00</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.65 &plusmn; 0.16</td>
+              <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">0.94 &plusmn; 0.07</td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+> BabyAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
 
 ## Technical Report
 
