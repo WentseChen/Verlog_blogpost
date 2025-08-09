@@ -203,6 +203,7 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
     Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, we adopt a binary trajectory-level reward scheme: 1 for success trajectory, 0 for failure trajectory. Combined with dual-discount GAE, this setup ensures that earlier steps in suboptimal trajectories receive lower credit compared to those in optimal ones. For Crafter, we use the native environment rewards directly.
 
 * **Batch Environment (Fixed-Turn Batching):**
+    <img src="assets/images/system.jpg" alt="Description" style="max-width:100%; height:auto;">
     Our framework supports asynchronous rollouts and works with any environment using the OpenAI Gym interface. Each training batch size is: `n_env` × `e_len`, where:
     * `n_env` = number of parallel environments
     * `e_len` = episode length per rollout
