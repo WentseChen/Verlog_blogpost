@@ -260,7 +260,7 @@ Verlog uses a highly abstract game as its testbed, reducing the need for prompt 
 
 ## Conclusion
 
-Amid all these fancy techniques, the golden rule remains: always actually read what the LLM’s dialogue spits out when you’re debugging.
+Verlog solves most of the engineering challenges in building LLM agents for long-horizon, multi-turn tasks. Moving forward, we hope to use this framework to explore core research problems in LLM agents, such as memory design, exploration strategies, value function learning, and handling off-policyness.
 
 
 > If you find Verlog useful, please consider citing our workshop [paper](https://openreview.net/forum?id=6CE5PLsZdW). The full version is coming soon!
