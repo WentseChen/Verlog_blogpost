@@ -17,7 +17,7 @@ layout: default
   </a>
 </div>
 
-Verlog is a well-tuned multi-turn RL framework built for long-horizon LLM agentic tasks. It extends [VeRL](https://github.com/volcengine/verl) and [BALROG](https://github.com/balrog-ai/BALROG), and follows the core design principles of [pytorch-a2c-ppo-acktr-gail](https://github.com/ikostrikov/pytorch-a2c-ppo-acktr-gail), while introducing tailored modifications for efficient multi-turn training.
+Verlog is a multi-turn reinforcement learning framework built for **long-horizon LLM-agentic tasks with highly variable episode lengths**. Extending [VeRL](https://github.com/volcengine/verl) and [BALROG](https://github.com/balrog-ai/BALROG) while following the proven design principles of [pytorch-a2c-ppo-acktr-gail](https://github.com/ikostrikov/pytorch-a2c-ppo-acktr-gail), it introduces specialized optimizations for stable and efficient training when episodes span from short interactions to hundreds of turns. Whereas prior frameworks like [VeRL](https://github.com/volcengine/verl) and [RAGEN](https://ragen-ai.github.io) effectively handle tasks with ~10 turns, and [verl-agent](https://github.com/langfengQ/verl-agent) scales up to ~50 turns, Verlog is designed to operate in environments reaching **up to 400 turns**, making it uniquely suited for complex, long-duration decision-making. This capability has been validated across challenging domains such as BabyAI, BabaIsAI, and Crafter, where it consistently achieves strong performance out of the box. In Crafter, for instance, episode lengths range from 70 to 400 steps with an average of about 190.
 
 ## Key features:  
 
