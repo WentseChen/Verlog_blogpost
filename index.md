@@ -21,7 +21,7 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 ## Key features:  
 
-🧠 Turn-Level Abstraction: To handle extremely long episodes, we treat each turn as an independent training sample. This eliminates the need to encode the entire trajectory into a single context window and allows for modular, customizable [memory architectures](#**Memory-Mechanism:**).
+🧠 Turn-Level Abstraction: To handle extremely long episodes, we treat each turn as an independent training sample. This eliminates the need to encode the entire trajectory into a single context window and allows for modular, customizable [memory architectures](#memory-mechanism).
 
 🎯 Fixed-Turn Batching: To address the high variance in episode lengths across environments, we use fixed-turn batching. Each training batch contains a fixed number of turns. For incomplete episodes, we replace final rewards with value function estimates as the supervision signal.
 
@@ -153,11 +153,11 @@ In the following sections, we outline our design choices, implementation details
 
 ### Model & Prompt
 
-#### Instruct Model:
+#### Instruct Model
 
 We begin with the Instruct variant of Qwen-2.5 (Qwen-2.5-3B/7B-Instruct), rather than the base model, for two key reasons. First, it enables seamless integration with [BALROG](https://github.com/balrog-ai/BALROG), a framework designed to evaluate the zero-shot performance of instruct models across a range of benchmarks. Second, it allows us to use the benchmark's prompts with minimal modifications
 
-#### Memory Mechanism:
+#### Memory Mechanism
 
 Rather than placing the entire trajectory into the context window, we include only the latest $$n+1$$ turns. Each turn, i.e., data = $$(\text{history}_t, s_t,$$ $$\text{think}_t, a_t)$$ , with $$\text{history}_t = \{s_{t-n},$$ $$\text{think}_{t-n}, a_{t-n},$$ $$..., s_{t-1},$$ $$\text{think}_{t-1}, a_{t-1}\}$$, is treated as an individual training data point. As a result, each training batch consists of `batch_size` individual turns, not `batch_size` full trajectories.
 
