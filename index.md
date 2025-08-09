@@ -71,11 +71,11 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; gap: 20px;">
   <figure style="flex: 1; text-align: center; margin: 0;">
-    <img src="assets/images/babyai.gif" style="width: 100%; height: 300px; object-fit: cover; display: block;" />
+    <img src="assets/images/babyai.gif" style="width: 100%; height: 300px; object-fit: contain; display: block;" />
     <figcaption style="font-size: 14px; line-height: 1;">BabyAI open</figcaption>
   </figure>
   <figure style="flex: 1; text-align: center; margin: 0;">
-    <img src="assets/images/babaisai.gif" style="width: 100%; height: 300px; object-fit: cover; display: block;" />
+    <img src="assets/images/babaisai.gif" style="width: 100%; height: 300px; object-fit: contain; display: block;" />
     <figcaption style="font-size: 14px; line-height: 1;">BabaIsAI two_room-maybe_break_stop-goto_win</figcaption>
   </figure>
 </div>
