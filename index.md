@@ -27,7 +27,6 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 🛠️ Tailored for Multi-Turn RL: To address the unique challenges of multi-turn RL, we introduce a set of targeted techniques such as [Dual Discounting GAE](#dual-discounting-gae) and [Critic Pre-training](#critic-warmup), combined with carefully tuned hyperparameters to ensure efficient and stable learning.
 
-
 ## Main Results
 
 ### Crafter Results:
@@ -70,6 +69,20 @@ Verlog is a multi-turn reinforcement learning framework built for **long-horizon
 
 > Crafter's experiments are done with Qwen2.5-7B-Instruct model, using PPO algorithm, trained on 8xH100 GPUs with 82Gb memory for ~36 hours, corresponding to 170 PPO updates.
 
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+
+  <figure style="flex: 0 0 50%; max-width: 50%; margin: 0;">
+    <img src="assets/images/babyai.gif" style="width: 100%; height: auto;" alt="First GIF" />
+    <figcaption style="text-align: center; font-size: 0.9em; margin-top: 6px;">BabyAI open</figcaption>
+  </figure>
+
+  <figure style="flex: 0 0 50%; max-width: 50%; margin: 0;">
+    <img src="assets/images/babaisai.gif" style="width: 100%; height: auto;" alt="Second GIF" />
+    <figcaption style="text-align: center; font-size: 0.9em; margin-top: 6px;">BabaIsAI two_room-maybe_break_stop-goto_win</figcaption>
+  </figure>
+
+</div>
 
 ### BabaIsAI Results (win rate)
 
