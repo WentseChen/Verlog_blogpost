@@ -119,7 +119,7 @@ maybe_break_stop → ⚠️;
 </div>
 
 
-> BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
+> BabaIsAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates. The maximum episode length was set to 100.
 
 
 ### BabyAI Results (win rate)
@@ -154,7 +154,7 @@ maybe_break_stop → ⚠️;
   </table>
 </div>
 
-> BabyAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates.
+> BabyAI's experiments are done with Qwen2.5-3B-Instruct model, using PPO algorithm, trained on 4xA40 GPUs with 48Gb memory for ~24 hours, corresponding to 300 PPO updates. The maximum episode length was set to 128.
 
 ## Technical Report
 
