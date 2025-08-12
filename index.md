@@ -215,6 +215,10 @@ We observe that truncating the trajectory upon encountering an invalid action le
   
 Rewards are rule-based and provided by the environment. In BabyAI and BabaIsAI, we adopt a binary trajectory-level reward scheme: 1 for success trajectory, 0 for failure trajectory. Combined with dual-discount GAE, this setup ensures that earlier steps in suboptimal trajectories receive lower credit compared to those in optimal ones. For Crafter, we use the native environment rewards directly.
 
+We observed a frustrating issue when training on Crafter: 
+
+  * the score improvement mainly comes from reinforcing skills that the base model already possessed, rather than learning new skills. For example, before fine-tuning, agents rarely placed furnace, but after fine-tuning, they successfully place furnace almost every episode. However, skills that were previously unknown, such as crafting an iron sword, remain unlearned even after fine-tuning. This suggests that the current version of RL fails to teach agents new skills on these tasks, instead primarily sharpening the action distribution to favor behaviors with higher immediate rewards.
+
 #### Batch Environment (Fixed-Turn Batching)
 
 <img src="assets/images/system.jpg" alt="Description" style="max-width:100%; height:auto;">
